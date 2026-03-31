@@ -173,6 +173,7 @@ h4, .title-sm {
     background: var(--pixel-bg-main);
     border-right: 3px solid var(--pixel-border-divider);
     padding: 1rem;
+    padding-right: 0.5rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -182,7 +183,8 @@ h4, .title-sm {
 /* Preview Area */
 .preview-area {
     flex: 1;
-    padding: 1.5rem;
+    padding: 1rem;
+    padding-left: 0.5rem;
     overflow-y: auto;
     display: flex;
     flex-direction: column;

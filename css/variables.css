@@ -1,0 +1,85 @@
+/* =====================
+   Magic Pixel - Design System Variables
+   加深版奶油太妃棕配色方案
+   ===================== */
+
+:root {
+    /* ===== 字体 ===== */
+    --font-display: 'Fredoka', 'Quicksand', sans-serif;
+    --font-heading: 'Quicksand', 'Nunito', sans-serif;
+    --font-body: 'Nunito', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+    /* ===== 字体大小 ===== */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+    --text-3xl: 2.5rem;
+
+    /* ===== 字重 ===== */
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+    --font-bold: 700;
+
+    /* ===== 主色调 - 暖橙棕 ===== */
+    --pixel-primary: #a6623f;
+    --pixel-primary-dark: #7a4830;
+    --pixel-primary-light: #c98f66;
+    --pixel-primary-lighter: #ddb89c;
+
+    /* ===== 辅助色 - 焦糖金色系 ===== */
+    --pixel-secondary: #B8860B;
+    --pixel-secondary-dark: #9A7209;
+    --pixel-secondary-light: #DAA520;
+
+    /* ===== 强调色 - 摩卡紫 ===== */
+    --pixel-accent: #8B6B8B;
+    --pixel-accent-dark: #6B4F6B;
+    --pixel-accent-light: #AB8BAB;
+
+    /* ===== 功能色 ===== */
+    --pixel-success: #7A9B6B;
+    --pixel-warning: #D4954B;
+    --pixel-error: #B85A52;
+
+    /* ===== 背景色（温暖米白系） ===== */
+    --pixel-bg-main: #E8DCD0;
+    --pixel-bg-card: #FAF5EE;
+    --pixel-bg-panel: #F0E8DC;
+
+    /* ===== 文字色（浓咖啡系） ===== */
+    --pixel-text-primary: #2C1810;
+    --pixel-text-secondary: #5C3D2E;
+    --pixel-text-muted: #8B6B5A;
+    --pixel-text-light: #E8DCD0;
+
+    /* ===== 边框与分割线 ===== */
+    --pixel-border: #C9B8A8;
+    --pixel-border-hover: #A89878;
+
+    /* ===== 阴影（温暖色调） ===== */
+    --pixel-shadow-sm: 2px 2px 0 rgba(44, 24, 16, 0.10);
+    --pixel-shadow-md: 4px 4px 0 rgba(44, 24, 16, 0.15);
+    --pixel-shadow-lg: 6px 6px 0 rgba(44, 24, 16, 0.20);
+    --pixel-shadow-colored: 4px 4px 0 var(--pixel-primary);
+
+    /* ===== 圆角 ===== */
+    --pixel-radius-sm: 4px;
+    --pixel-radius-md: 8px;
+    --pixel-radius-lg: 12px;
+    --pixel-radius-full: 20px;
+
+    /* ===== 过渡 ===== */
+    --pixel-transition: 0.15s ease;
+    --pixel-transition-slow: 0.3s ease;
+
+    /* ===== 间距 ===== */
+    --pixel-space-xs: 0.25rem;
+    --pixel-space-sm: 0.5rem;
+    --pixel-space-md: 1rem;
+    --pixel-space-lg: 1.5rem;
+    --pixel-space-xl: 2rem;
+}

@@ -1,0 +1,656 @@
+/* =====================
+   Magic Pixel - Components
+   游戏化组件样式
+   ===================== */
+
+/* ===== Header Navigation ===== */
+.header {
+    position: relative;
+}
+
+.header__nav {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+.header__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--pixel-radius-md);
+    transition: all var(--pixel-transition);
+    background: #a87250;
+    border: 2px solid #8a5d42;
+}
+
+.header__back:hover {
+    background: #8a5d42;
+    color: white;
+    transform: translateX(-2px);
+}
+
+.header__back svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* ===== Zoom Control ===== */
+.zoom-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    font-weight: 500;
+}
+
+.zoom-control__label {
+    font-size: 0.75rem;
+    color: var(--pixel-text-secondary);
+}
+
+.zoom-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 80px;
+    height: 6px;
+    background: var(--pixel-border);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+.zoom-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: var(--pixel-primary);
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 rgba(45, 31, 61, 0.2);
+    transition: all var(--pixel-transition);
+}
+
+.zoom-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+}
+
+.zoom-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: var(--pixel-primary);
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.zoom-control__value {
+    font-size: 0.75rem;
+    color: var(--pixel-text-primary);
+    min-width: 36px;
+    text-align: right;
+    font-weight: 700;
+}
+
+/* ===== Preview Container Zoomable ===== */
+.preview-container--zoomable {
+    max-height: 400px;
+    overflow: auto;
+    align-items: flex-start;
+}
+
+.preview-container--zoomable canvas {
+    transform-origin: top left;
+    transition: transform 0.1s ease;
+}
+
+/* ===== Piece Grid Zoomable ===== */
+.piece-grid--zoomable {
+    max-height: 400px;
+    overflow: auto;
+}
+
+/* ===== Upload Zone - 游戏化 ===== */
+.upload-zone {
+    border: 3px dashed var(--pixel-border);
+    border-radius: var(--pixel-radius-lg);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--pixel-transition);
+    background: var(--pixel-bg-card);
+    position: relative;
+}
+
+.upload-zone:hover {
+    border-color: var(--pixel-primary);
+    background: rgba(255, 107, 53, 0.03);
+    transform: scale(1.01);
+}
+
+.upload-zone--dragover {
+    border-color: #aa592f;
+    background: rgba(78, 205, 196, 0.05);
+    border-style: solid;
+    transform: scale(1.02);
+}
+
+.upload-zone--loaded {
+    border-color: #aa592f;
+    background: rgba(212, 113, 74, 0.05);
+}
+
+.upload-zone__icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 1rem;
+    color: var(--pixel-text-muted);
+    transition: all var(--pixel-transition);
+}
+
+.upload-zone:hover .upload-zone__icon {
+    color: var(--pixel-primary);
+    transform: translateY(-4px);
+}
+
+.upload-zone__text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--pixel-text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.upload-zone__subtext {
+    font-size: 0.875rem;
+    color: var(--pixel-text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.upload-zone__formats {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--pixel-text-muted);
+    background: var(--pixel-bg-panel);
+    border-radius: var(--pixel-radius-full);
+}
+
+/* ===== Control Group ===== */
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.control-group__label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.control-group__label > span:first-child {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--pixel-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* ===== Input - 游戏化输入框 ===== */
+.control-group__input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 3px solid var(--pixel-border);
+    border-radius: var(--pixel-radius-md);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--pixel-text-primary);
+    background: var(--pixel-bg-card);
+    outline: none;
+    transition: all var(--pixel-transition);
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.control-group__input:focus {
+    border-color: var(--pixel-primary);
+    box-shadow:
+        inset 2px 2px 4px rgba(0, 0, 0, 0.05),
+        0 0 0 3px rgba(255, 107, 53, 0.15);
+}
+
+.control-group__input:disabled {
+    background: var(--pixel-bg-panel);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ===== Input with Slider ===== */
+.input-with-slider {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-with-slider .control-group__input {
+    width: 100%;
+}
+
+/* ===== Slider - 游戏化滑块 ===== */
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: var(--pixel-border);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--pixel-primary);
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 2px 2px 0 rgba(45, 31, 61, 0.2);
+    transition: all var(--pixel-transition);
+}
+
+.slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 3px 3px 0 rgba(45, 31, 61, 0.25);
+}
+
+.slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--pixel-primary);
+    border: 3px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* ===== Slider Limit ===== */
+.slider-limit {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.slider-limit__input {
+    width: 80px !important;
+    text-align: center;
+}
+
+/* ===== Radio Group ===== */
+.radio-group {
+    display: flex;
+    gap: 1rem;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.radio-label input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--pixel-primary);
+}
+
+/* ===== Button Group ===== */
+.btn-group {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+/* ===== Buttons - 游戏化立体按钮 ===== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    border-radius: var(--pixel-radius-md);
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: all var(--pixel-transition);
+    position: relative;
+    text-decoration: none;
+    flex: 1;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.btn__icon {
+    width: 16px;
+    height: 16px;
+}
+
+/* 主要按钮 - 立体感 */
+.btn--primary {
+    background: var(--pixel-primary);
+    color: white;
+    border-color: var(--pixel-primary-dark);
+    box-shadow: var(--pixel-shadow-md);
+    transform: translateY(0);
+}
+
+.btn--primary:hover:not(:disabled) {
+    background: var(--pixel-primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--pixel-shadow-lg);
+}
+
+.btn--primary:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow: 2px 2px 0 rgba(45, 31, 61, 0.15);
+}
+
+/* 次要按钮 */
+.btn--secondary {
+    background: #F0E8DC;
+    color: var(--pixel-text-primary);
+    border-color: var(--pixel-border);
+    box-shadow: var(--pixel-shadow-sm);
+}
+
+.btn--secondary:hover:not(:disabled) {
+    background: var(--pixel-bg-panel);
+    border-color: var(--pixel-secondary);
+    color: var(--pixel-secondary-dark);
+}
+
+/* 辅助按钮 */
+.btn--accent {
+    background: var(--pixel-secondary);
+    color: white;
+    border-color: var(--pixel-secondary-dark);
+    box-shadow: var(--pixel-shadow-md);
+}
+
+.btn--accent:hover:not(:disabled) {
+    background: var(--pixel-secondary-dark);
+    transform: translateY(-2px);
+}
+
+/* 小按钮 */
+.btn--small {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+}
+
+/* ===== Piece Grid Item - 游戏化卡片 ===== */
+.piece-grid__item {
+    position: relative;
+    aspect-ratio: 1;
+    background: var(--pixel-bg-main);
+    border-radius: var(--pixel-radius-md);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--pixel-transition);
+    border: 3px solid transparent;
+    box-shadow: var(--pixel-shadow-sm);
+}
+
+.piece-grid__item:hover {
+    border-color: var(--pixel-primary);
+    transform: translateY(-4px) rotate(-1deg);
+    box-shadow: var(--pixel-shadow-lg);
+}
+
+.piece-grid__item canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.piece-grid__label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(45, 31, 61, 0.85);
+    color: white;
+    font-family: var(--font-heading);
+    font-size: var(--text-xs);
+    font-weight: var(--font-medium);
+    padding: 0.375rem;
+    text-align: center;
+}
+
+.piece-grid__download {
+    position: absolute;
+    top: 0.375rem;
+    right: 0.375rem;
+    width: 28px;
+    height: 28px;
+    background: var(--pixel-primary);
+    color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+    transition: all var(--pixel-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    box-shadow: 2px 2px 0 rgba(45, 31, 61, 0.2);
+}
+
+.piece-grid__item:hover .piece-grid__download {
+    opacity: 1;
+}
+
+.piece-grid__download:hover {
+    background: var(--pixel-primary-dark);
+    transform: scale(1.1);
+}
+
+/* ===== Toast - 游戏化提示 ===== */
+.toast {
+    padding: 0.875rem 1.25rem;
+    background: var(--pixel-bg-card);
+    border-radius: var(--pixel-radius-md);
+    box-shadow: var(--pixel-shadow-lg);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    animation: slideIn 0.3s ease;
+    max-width: 350px;
+    border: 3px solid var(--pixel-border);
+}
+
+.toast--success {
+    border-left: 5px solid var(--pixel-success);
+    background: linear-gradient(90deg, rgba(34, 197, 94, 0.08) 0%, var(--pixel-bg-card) 30%);
+}
+
+.toast--error {
+    border-left: 5px solid var(--pixel-error);
+    background: linear-gradient(90deg, rgba(239, 68, 68, 0.08) 0%, var(--pixel-bg-card) 30%);
+}
+
+.toast--warning {
+    border-left: 5px solid var(--pixel-warning);
+    background: linear-gradient(90deg, rgba(251, 191, 36, 0.08) 0%, var(--pixel-bg-card) 30%);
+}
+
+.toast__icon {
+    font-size: 1.25rem;
+}
+
+.toast__message {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--pixel-text-primary);
+}
+
+/* ===== Grid Lines ===== */
+.grid-line-h,
+.grid-line-v {
+    position: absolute;
+    background: rgba(255, 107, 53, 0.8);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.grid-line-h {
+    height: 2px;
+    left: 0;
+    right: 0;
+}
+
+.grid-line-v {
+    width: 2px;
+    top: 0;
+    bottom: 0;
+}
+
+/* ===== Upload/Settings/Export Sections ===== */
+.upload-section,
+.settings-section,
+.export-section {
+    padding-bottom: 1rem;
+}
+
+.upload-section:last-child,
+.settings-section:last-child,
+.export-section:last-child {
+    padding-bottom: 0;
+}
+
+/* ===== Scrollbar - 游戏化滚动条 ===== */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--pixel-bg-main);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--pixel-border);
+    border-radius: 5px;
+    border: 2px solid var(--pixel-bg-main);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--pixel-primary);
+}
+
+/* ===== Control Card - 游戏化控制卡片 ===== */
+.control-card {
+    background: var(--pixel-bg-panel);
+    border-radius: var(--pixel-radius-lg);
+    border: 3px solid var(--pixel-border);
+    overflow: hidden;
+}
+
+.control-card__header {
+    padding: 1rem 1.25rem;
+    background: #F0E8DC;
+    border-bottom: 3px solid var(--pixel-border);
+}
+
+.control-card__title {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--pixel-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.control-card__body {
+    padding: 1rem 1.25rem;
+}
+
+/* ===== Tags & Badges ===== */
+.tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: var(--pixel-radius-full);
+    background: var(--pixel-bg-panel);
+    color: var(--pixel-text-secondary);
+    border: 2px solid var(--pixel-border);
+}
+
+.tag--primary {
+    background: rgba(255, 107, 53, 0.1);
+    color: var(--pixel-primary-dark);
+    border-color: rgba(255, 107, 53, 0.3);
+}
+
+.tag--success {
+    background: rgba(34, 197, 94, 0.1);
+    color: #16A34A;
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5rem;
+    height: 1.5rem;
+    padding: 0 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    border-radius: var(--pixel-radius-full);
+    background: var(--pixel-primary);
+    color: white;
+}
+
+/* Coming Soon 徽章 */
+.badge--coming {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.375rem 0.625rem;
+    font-size: var(--text-xs);
+    font-weight: var(--font-bold);
+    font-family: var(--font-heading);
+    color: var(--pixel-accent-dark);
+    background: rgba(139, 107, 139, 0.12);
+    border: 2px solid rgba(139, 107, 139, 0.3);
+    border-radius: var(--pixel-radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}

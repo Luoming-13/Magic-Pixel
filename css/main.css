@@ -1,0 +1,519 @@
+/* =====================
+   Magic Pixel - Main Styles
+   休闲卡通/像素游戏风格
+   ===================== */
+
+/* 导入设计系统变量 */
+@import url('variables.css');
+
+/* CSS Reset & Base */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--pixel-bg-main);
+    background-image:
+        linear-gradient(rgba(201, 149, 108, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 149, 108, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: var(--pixel-text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ===== 标题样式 ===== */
+h1, h2, h3, h4, h5, h6 {
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+}
+
+h1, .title-xl {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    line-height: 1.3;
+}
+
+h2, .title-lg {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    line-height: 1.4;
+}
+
+h3, .title-md {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    line-height: 1.4;
+}
+
+h4, .title-sm {
+    font-family: var(--font-heading);
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    line-height: 1.5;
+}
+
+/* ===== 像素网格背景 ===== */
+.pixel-bg-grid {
+    background-image:
+        linear-gradient(rgba(201, 149, 108, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 149, 108, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* 卡片网格背景 - 比主页背景更浅 */
+.pixel-bg-card-grid {
+    background-color: #FFFDF9;
+    background-image:
+        linear-gradient(rgba(201, 149, 108, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 149, 108, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* Header */
+.header {
+    background: transparent;
+    color: var(--pixel-text-primary);
+    padding: 1.25rem 2rem 1.25rem 5rem;
+    border-bottom: 3px solid var(--pixel-border);
+    text-align: center;
+    position: relative;
+}
+
+.header__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    animation: float 3s ease-in-out infinite;
+}
+
+@media (min-width: 640px) {
+    .header__icon {
+        width: 3rem;
+        height: 3rem;
+    }
+}
+
+.header__icon svg {
+    width: 100%;
+    height: 100%;
+    color: var(--pixel-primary);
+}
+
+.header__title {
+    font-family: var(--font-display);
+    font-size: 3.375rem;
+    font-weight: var(--font-bold);
+    color: var(--pixel-text-primary);
+}
+
+/* 主标题容器 */
+.header__titles {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* 主标题 - 应用名 */
+.header__main-title {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: var(--font-bold);
+    color: var(--pixel-text-primary);
+    line-height: 1.1;
+    margin: 0;
+}
+
+/* 副标题 - 功能名 */
+.header__sub-title {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: var(--font-semibold);
+    color: var(--pixel-text-secondary);
+    margin-top: 0.25rem;
+    letter-spacing: 0.05em;
+}
+
+.header__subtitle {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-top: 0.25rem;
+}
+
+/* Main Layout */
+.main-container {
+    display: flex;
+    min-height: calc(100vh - 80px);
+}
+
+/* Control Panel - 游戏化面板 */
+.control-panel {
+    width: 340px;
+    min-width: 340px;
+    background: var(--pixel-bg-main);
+    border-right: 3px solid var(--pixel-border);
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Preview Area */
+.preview-area {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Section Title */
+.section-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    color: var(--pixel-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Image Info */
+.image-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: var(--pixel-bg-card);
+    border-radius: var(--pixel-radius-md);
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--pixel-text-secondary);
+    border: 3px solid var(--pixel-border);
+}
+
+.image-info__name {
+    flex: 1 1 100%;
+    font-weight: 600;
+    color: var(--pixel-text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Piece Size Info */
+.piece-size-info {
+    font-size: 0.8rem;
+    color: var(--pixel-text-secondary);
+    padding: 0.5rem 0;
+}
+
+/* Pieces Count */
+.pieces-count {
+    font-weight: 500;
+    color: var(--pixel-text-secondary);
+    margin-left: auto;
+}
+
+/* Preview Section - 游戏化卡片 */
+.preview-section {
+    background: var(--pixel-bg-card);
+    border-radius: var(--pixel-radius-lg);
+    padding: 1.25rem;
+    box-shadow: var(--pixel-shadow-md);
+    border: 3px solid var(--pixel-border);
+}
+
+/* Preview Container */
+.preview-container {
+    position: relative;
+    background: var(--pixel-bg-main);
+    border: 3px dashed var(--pixel-border);
+    border-radius: var(--pixel-radius-md);
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.preview-placeholder {
+    text-align: center;
+    color: var(--pixel-text-secondary);
+}
+
+.preview-placeholder svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.preview-placeholder p {
+    font-size: 0.875rem;
+}
+
+#previewCanvas {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+}
+
+/* Grid Overlay */
+.grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+/* Pieces Section */
+.pieces-section {
+    background: var(--pixel-bg-card);
+    border-radius: var(--pixel-radius-lg);
+    padding: 1.25rem;
+    box-shadow: var(--pixel-shadow-md);
+    border: 3px solid var(--pixel-border);
+}
+
+/* Piece Grid */
+.piece-grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+}
+
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(45, 31, 61, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* 像素风格加载动画 */
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    background:
+        linear-gradient(45deg, var(--pixel-primary) 25%, transparent 25%),
+        linear-gradient(-45deg, var(--pixel-primary) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, var(--pixel-primary) 75%),
+        linear-gradient(-45deg, transparent 75%, var(--pixel-primary) 75%);
+    background-size: 12px 12px;
+    animation: pixelLoad 1s linear infinite;
+}
+
+@keyframes pixelLoad {
+    0%, 100% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+}
+
+.loading-text {
+    color: white;
+    margin-top: 1rem;
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+}
+
+/* Progress Bar */
+.progress-bar {
+    position: fixed;
+    top: 80px;
+    left: 320px;
+    right: 0;
+    height: 6px;
+    background: rgba(255, 107, 53, 0.2);
+    z-index: 100;
+}
+
+.progress-bar__fill {
+    height: 100%;
+    background: var(--pixel-primary);
+    transition: width 0.3s ease;
+}
+
+.progress-bar__text {
+    position: absolute;
+    right: 1rem;
+    top: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--pixel-text-primary);
+}
+
+/* Toast Container */
+.toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* ===== 动画定义 ===== */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-8px) rotate(2deg);
+    }
+    75% {
+        transform: translateY(-4px) rotate(-2deg);
+    }
+}
+
+@keyframes pixelShake {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-2px, 2px); }
+    50% { transform: translate(2px, -2px); }
+    75% { transform: translate(-2px, -2px); }
+}
+
+@keyframes starTwinkle {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
+}
+
+/* ===== 工具类 ===== */
+.animate-bounceIn {
+    animation: bounceIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-pixelShake:hover {
+    animation: pixelShake 0.3s ease-in-out;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 1024px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .control-panel {
+        width: 100%;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 3px solid var(--pixel-border);
+    }
+
+    .control-card {
+        width: 100%;
+    }
+
+    .progress-bar {
+        left: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 1rem;
+        padding-left: 1rem;
+    }
+
+    .control-panel {
+        padding: 0.75rem;
+    }
+
+    .preview-area {
+        padding: 1rem;
+    }
+
+    .card-section {
+        padding: 1rem;
+    }
+}

@@ -1,0 +1,346 @@
+/* =====================
+   Magic Pixel - Share Component
+   分享组件样式
+   ===================== */
+
+/* ===== Share Button (Fixed) ===== */
+.share-btn {
+    position: fixed;
+    bottom: calc(1rem + 10px);
+    right: 1rem;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    /* 版本号颜色 + 70%透明度 */
+    background-color: rgba(179, 93, 51, 0.7);
+    color: white;
+}
+
+.share-btn:hover {
+    background-color: rgba(154, 78, 43, 0.85);
+    transform: translateY(-2px);
+}
+
+.share-btn:active {
+    transform: translateY(1px);
+}
+
+.share-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ===== Favorite Button (Fixed) ===== */
+.favorite-btn {
+    position: fixed;
+    bottom: calc(4rem + 10px);
+    right: 1rem;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: rgba(179, 93, 51, 0.7);
+    color: white;
+}
+
+.favorite-btn:hover {
+    background-color: rgba(154, 78, 43, 0.85);
+    transform: translateY(-2px);
+}
+
+.favorite-btn:active {
+    transform: translateY(1px);
+}
+
+.favorite-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* 收藏已激活状态 */
+.favorite-btn--active {
+    background-color: rgba(179, 93, 51, 1);
+}
+
+.favorite-btn--active svg {
+    fill: currentColor;
+}
+
+/* ===== Share Modal ===== */
+.share-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(44, 24, 16, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.share-modal--active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.share-modal__content {
+    background: #FAF5EE;
+    border-radius: 0.75rem;
+    border: 3px solid #C9B8A8;
+    box-shadow: 6px 6px 0 rgba(44, 24, 16, 0.20);
+    width: 90%;
+    max-width: 400px;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.share-modal--active .share-modal__content {
+    transform: scale(1);
+}
+
+.share-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 3px solid #C9B8A8;
+    background: #F0E8DC;
+    border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.share-modal__header h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2C1810;
+    margin: 0;
+}
+
+.share-modal__close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 2px solid #C9B8A8;
+    border-radius: 0.5rem;
+    font-size: 1.25rem;
+    color: #5C3D2E;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.share-modal__close:hover {
+    background: #B8844A;
+    border-color: #B8844A;
+    color: white;
+}
+
+.share-modal__body {
+    padding: 1.25rem;
+}
+
+/* ===== Copy Link Section ===== */
+.share-copy-link {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.share-copy-link__input {
+    flex: 1;
+    padding: 0.625rem 0.875rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.8125rem;
+    color: #2C1810;
+    background: #E8DCD0;
+    border: 3px solid #C9B8A8;
+    border-radius: 0.5rem;
+    outline: none;
+}
+
+.share-copy-link__input:focus {
+    border-color: #B8844A;
+}
+
+.share-copy-link__btn {
+    padding: 0.625rem 1rem;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: white;
+    background: #B35D33;
+    border: 2px solid #9A4E2B;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.share-copy-link__btn:hover {
+    background: #9A4E2B;
+}
+
+.share-copy-link__btn--copied {
+    background: #7A9B6B;
+    border-color: #5A7B4B;
+}
+
+/* ===== Share Platforms ===== */
+.share-platforms {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.share-platform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 1rem 0.75rem;
+    background: #F0E8DC;
+    border: 3px solid #C9B8A8;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.share-platform:hover {
+    transform: translateY(-3px);
+    box-shadow: 4px 4px 0 rgba(44, 24, 16, 0.15);
+}
+
+.share-platform__icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 800;
+    border-radius: 50%;
+    color: white;
+}
+
+.share-platform__name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #5C3D2E;
+}
+
+/* Platform specific colors */
+.share-platform--weibo .share-platform__icon {
+    background: #E6162D;
+}
+
+.share-platform--twitter .share-platform__icon {
+    background: #000000;
+}
+
+.share-platform--wechat .share-platform__icon {
+    background: #07C160;
+}
+
+.share-platform--weibo:hover {
+    border-color: #E6162D;
+}
+
+.share-platform--twitter:hover {
+    border-color: #000000;
+}
+
+.share-platform--wechat:hover {
+    border-color: #07C160;
+}
+
+/* ===== WeChat QR Code Overlay ===== */
+.share-qrcode {
+    text-align: center;
+    padding: 1rem;
+}
+
+.share-qrcode__title {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #2C1810;
+    margin-bottom: 1rem;
+}
+
+.share-qrcode__image {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    background: white;
+    border: 3px solid #C9B8A8;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.share-qrcode__tip {
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    color: #8B6B5A;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+    .share-btn,
+    .favorite-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .share-btn svg,
+    .favorite-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .favorite-btn {
+        bottom: calc(3.5rem + 10px);
+    }
+
+    .share-modal__content {
+        width: 95%;
+        margin: 1rem;
+    }
+
+    .share-platforms {
+        gap: 0.5rem;
+    }
+
+    .share-platform {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .share-platform__icon {
+        width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+    }
+}

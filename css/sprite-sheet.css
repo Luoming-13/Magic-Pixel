@@ -569,7 +569,7 @@
 .preview-wrapper {
     position: relative;
     cursor: grab;
-    transform-origin: top left;
+    transform-origin: center center;
 }
 
 .preview-wrapper:active {

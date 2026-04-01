@@ -383,31 +383,12 @@ const UIController = {
         const wrapper = this._elements.previewWrapper;
         const container = this._elements.previewContainer;
 
-        // 计算合适的显示尺寸，限制最大尺寸
-        const maxWidth = Math.min(container.clientWidth - 40, 800);
-        const maxHeight = 500;
-
-        let displayWidth = image.width;
-        let displayHeight = image.height;
-
-        // 限制最大显示尺寸
-        if (displayWidth > maxWidth) {
-            const ratio = maxWidth / displayWidth;
-            displayHeight = displayHeight * ratio;
-            displayWidth = maxWidth;
-        }
-
-        if (displayHeight > maxHeight) {
-            const ratio = maxHeight / displayHeight;
-            displayWidth = displayWidth * ratio;
-            displayHeight = maxHeight;
-        }
-
-        canvas.width = displayWidth;
-        canvas.height = displayHeight;
+        // 设置canvas为原图尺寸
+        canvas.width = image.width;
+        canvas.height = image.height;
 
         const ctx = canvas.getContext('2d');
-        ctx.drawImage(image, 0, 0, displayWidth, displayHeight);
+        ctx.drawImage(image, 0, 0);
 
         // 重置平移状态
         this._panState.offsetX = 0;
@@ -424,8 +405,17 @@ const UIController = {
         this._updatePieceSizeInfo();
         this.showGridOverlay();
 
-        // 应用变换
-        this._updatePreviewTransform();
+        // 使用统一的预览工具进行自适应缩放
+        const fitScale = PreviewUtils.autoFitPreview({
+            container,
+            canvas,
+            slider: DOM.$('#previewZoomSlider'),
+            valueDisplay: DOM.$('#previewZoomValue'),
+            type: 'original'
+        });
+
+        // 更新缩放级别以匹配计算出的缩放值
+        this._zoomLevels.preview = Math.round(fitScale * 100);
     },
 
     /**

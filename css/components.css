@@ -103,11 +103,11 @@
 .preview-container--zoomable {
     max-height: 400px;
     overflow: auto;
-    align-items: flex-start;
+    /* 保持继承父类的 align-items: center，实现内容居中 */
 }
 
 .preview-container--zoomable canvas {
-    transform-origin: top left;
+    transform-origin: center center;
     transition: transform 0.1s ease;
 }
 

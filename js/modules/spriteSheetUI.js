@@ -136,7 +136,7 @@ const SpriteSheetUI = {
         const zoom = this.zoomLevels.source / 100;
         const pan = this.panStates.source;
         wrapper.style.transform = `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;
-        wrapper.style.transformOrigin = 'top left';
+        wrapper.style.transformOrigin = 'center center';
     },
 
     /**
@@ -271,6 +271,7 @@ const SpriteSheetUI = {
         const zoom = this.zoomLevels[key] / 100;
         const pan = this.panStates[key];
         canvas.style.transform = `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`;
+        canvas.style.transformOrigin = 'center center';
     },
 
     /**

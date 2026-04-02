@@ -1,6 +1,6 @@
 /* =====================
    Magic Cutting - Styles
-   游戏化样式
+   序列帧标准化重组功能样式
    ===================== */
 
 /* ===== Card Section ===== */
@@ -21,6 +21,77 @@
     text-transform: uppercase;
     letter-spacing: 0.03em;
     margin-bottom: 1rem;
+}
+
+/* ===== Collapsible Card Section ===== */
+
+/* 可折叠区块容器 */
+.card-section--collapsible {
+    overflow: hidden;
+}
+
+/* 可点击的标题区域 */
+.card-section__title--collapsible {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0;
+    cursor: pointer;
+    user-select: none;
+    padding: 0.25rem 0;
+    transition: color var(--pixel-transition);
+}
+
+.card-section__title--collapsible:hover {
+    color: var(--pixel-primary);
+}
+
+/* 实心等腰三角形图标 */
+.card-section__toggle-icon {
+    width: 0;
+    height: 0;
+    border-left: 6px solid var(--pixel-text-primary);
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    transition: transform var(--pixel-transition),
+                border-left-color var(--pixel-transition);
+    flex-shrink: 0;
+    transform: rotate(90deg);  /* 默认展开状态：垂直向下 */
+}
+
+.card-section__title--collapsible:hover .card-section__toggle-icon {
+    border-left-color: var(--pixel-primary);
+}
+
+/* 折叠状态：三角形指向右侧 */
+.card-section--collapsed .card-section__toggle-icon {
+    transform: rotate(0deg);
+}
+
+/* 标题文字 */
+.card-section__title-text {
+    font-family: var(--font-heading);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+/* 可折叠内容区域 */
+.card-section__content {
+    overflow: hidden;
+    transition: max-height 0.3s ease-out,
+                opacity var(--pixel-transition) ease-out;
+    max-height: 500px;
+    opacity: 1;
+    margin-top: 1rem;
+}
+
+/* 折叠状态下的内容 */
+.card-section--collapsed .card-section__content {
+    max-height: 0;
+    opacity: 0;
+    margin-top: 0;
 }
 
 /* ===== Upload Zone in Card ===== */
@@ -57,4 +128,570 @@
 /* ===== Button Group in Card ===== */
 .card-section .btn-group {
     margin-top: 1rem;
+}
+
+/* ===== Mode Nav ===== */
+.mode-nav {
+    display: flex;
+    border-bottom: 3px solid var(--pixel-border-divider);
+}
+
+.mode-nav__btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: all var(--pixel-transition);
+    color: var(--pixel-text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 700;
+    position: relative;
+    margin-bottom: -3px;
+}
+
+.mode-nav__btn:hover {
+    color: var(--pixel-primary);
+    background: rgba(255, 107, 53, 0.03);
+}
+
+.mode-nav__btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.mode-nav__btn--active {
+    color: var(--pixel-primary);
+    border-bottom-color: var(--pixel-primary);
+    background: rgba(255, 107, 53, 0.05);
+}
+
+/* ===== Frame Count ===== */
+.frame-count {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--pixel-bg-card);
+    border-radius: var(--pixel-radius-sm);
+    font-size: 0.875rem;
+}
+
+.frame-count strong {
+    color: var(--pixel-primary);
+    font-size: 1rem;
+}
+
+.btn-clear {
+    padding: 0.25rem 0.5rem;
+    background: transparent;
+    border: 2px solid var(--pixel-border);
+    border-radius: var(--pixel-radius-sm);
+    font-size: 0.75rem;
+    color: var(--pixel-text-secondary);
+    cursor: pointer;
+    transition: all var(--pixel-transition);
+}
+
+.btn-clear:hover {
+    border-color: var(--pixel-error);
+    color: var(--pixel-error);
+}
+
+/* ===== Checkbox Wrapper ===== */
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--pixel-primary);
+    cursor: pointer;
+}
+
+.checkbox-wrapper span {
+    font-size: 0.875rem;
+}
+
+/* ===== Frame Nav ===== */
+.frame-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+
+.frame-nav__current {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--pixel-text-secondary);
+}
+
+/* ===== Pivot Selector ===== */
+.pivot-selector {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pivot-btn {
+    width: 52px;
+    height: 52px;
+    background: var(--pixel-bg-card);
+    border: 3px solid var(--pixel-border);
+    border-radius: var(--pixel-radius-md);
+    cursor: pointer;
+    transition: all var(--pixel-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.pivot-btn:hover {
+    border-color: var(--pixel-primary);
+}
+
+.pivot-btn--active {
+    background: rgba(255, 107, 53, 0.1);
+    border-color: var(--pixel-primary);
+}
+
+.pivot-btn svg {
+    width: 28px;
+    height: 28px;
+    color: var(--pixel-text-secondary);
+}
+
+.pivot-btn--active svg {
+    color: var(--pixel-primary);
+}
+
+/* ===== Size Display ===== */
+.size-display {
+    padding: 0.5rem 0.75rem;
+    background: var(--pixel-bg-card);
+    border-radius: var(--pixel-radius-sm);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--pixel-text-secondary);
+    border: 2px solid var(--pixel-border);
+    text-align: center;
+}
+
+/* ===== Output Size Info ===== */
+.output-size-info {
+    padding: 0.5rem 0.75rem;
+    background: var(--pixel-bg-card);
+    border-radius: var(--pixel-radius-sm);
+    font-size: 0.875rem;
+    color: var(--pixel-text-secondary);
+    margin-top: 0.5rem;
+}
+
+/* ===== Preview Row (并列布局) ===== */
+.preview-row {
+    display: flex;
+    gap: 1rem;
+    height: 250px;
+}
+
+.preview-row .preview-section {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-row .preview-section .frame-list,
+.preview-row .preview-section .align-grid {
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* ===== Frame List ===== */
+.frame-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.75rem;
+    overflow-y: auto;
+    padding: 0.25rem;
+}
+
+.frame-list__item {
+    position: relative;
+    aspect-ratio: 1;
+    background: var(--pixel-bg-main);
+    border-radius: var(--pixel-radius-md);
+    border: 3px solid var(--pixel-border);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all var(--pixel-transition);
+}
+
+.frame-list__item:hover {
+    border-color: var(--pixel-primary);
+    transform: translateY(-2px);
+}
+
+.frame-list__item--active {
+    border-color: var(--pixel-primary);
+    box-shadow: var(--pixel-shadow-md);
+}
+
+.frame-list__item--detected {
+    border-color: var(--pixel-success);
+}
+
+.frame-list__item canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.frame-list__num {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(45, 31, 61, 0.85);
+    color: white;
+    font-size: 0.625rem;
+    text-align: center;
+    padding: 0.125rem;
+}
+
+.frame-list__status {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--pixel-border);
+}
+
+.frame-list__status--detected {
+    background: var(--pixel-success);
+}
+
+/* ===== Slice Info ===== */
+.slice-info {
+    font-size: 0.75rem;
+    color: var(--pixel-text-secondary);
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+/* ===== Align Grid ===== */
+.align-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.75rem;
+    overflow-y: auto;
+    padding: 0.25rem;
+    flex: 1;
+}
+
+.align-grid__item {
+    position: relative;
+    aspect-ratio: 1;
+    background: var(--pixel-bg-main);
+    border-radius: var(--pixel-radius-md);
+    border: 2px dashed var(--pixel-border-dashed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.align-grid__item canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.align-grid__num {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(45, 31, 61, 0.85);
+    color: white;
+    font-size: 0.625rem;
+    text-align: center;
+    padding: 0.125rem;
+}
+
+/* ===== Alignment Info Tags ===== */
+.alignment-info {
+    display: flex;
+    gap: 0.5rem;
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+.tag {
+    padding: 0.25rem 0.5rem;
+    background: var(--pixel-bg-card);
+    border-radius: var(--pixel-radius-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--pixel-text-secondary);
+    border: 2px solid var(--pixel-border);
+}
+
+.tag--primary {
+    background: rgba(255, 107, 53, 0.1);
+    border-color: var(--pixel-primary);
+    color: var(--pixel-primary);
+}
+
+/* ===== Frame List Count ===== */
+.frame-list-count {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--pixel-text-secondary);
+    margin-left: auto;
+    margin-right: 1rem;
+}
+
+/* ===== Slice Canvas Cursor ===== */
+#sliceCanvas {
+    cursor: crosshair;
+}
+
+#sliceCanvas.drawing {
+    cursor: crosshair;
+}
+
+#sliceCanvas.moving {
+    cursor: move;
+}
+
+/* ===== Selection Box Styles (rendered on canvas) ===== */
+/* These are applied dynamically via JS */
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+    .preview-row {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .preview-row .preview-section {
+        height: 200px;
+    }
+
+    .pivot-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    .pivot-btn svg {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* ===== Source Info ===== */
+.source-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--pixel-bg-card);
+    border-radius: var(--pixel-radius-sm);
+    font-size: 0.875rem;
+}
+
+.source-info span {
+    color: var(--pixel-text-primary);
+    font-weight: 500;
+}
+
+/* ===== Hint Text ===== */
+.hint-text {
+    font-size: 0.75rem;
+    color: var(--pixel-text-secondary);
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+}
+
+/* ===== Block Count ===== */
+.block-count {
+    font-size: 0.75rem;
+    color: var(--pixel-text-secondary);
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+/* ===== Drag Hint ===== */
+.drag-hint {
+    font-size: 0.75rem;
+    color: var(--pixel-text-secondary);
+    text-align: center;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-top: 1px solid var(--pixel-border-divider);
+}
+
+/* ===== Block List ===== */
+.block-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+/* ===== Block Item ===== */
+.block-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    background: var(--pixel-bg-card);
+    border: 2px solid var(--pixel-border);
+    border-radius: var(--pixel-radius-md);
+    cursor: grab;
+    transition: all var(--pixel-transition);
+    user-select: none;
+}
+
+.block-item:hover {
+    border-color: var(--pixel-primary);
+}
+
+.block-item:active {
+    cursor: grabbing;
+}
+
+.block-item--dragging {
+    opacity: 0.5;
+    border-color: var(--pixel-primary);
+    box-shadow: var(--pixel-shadow-md);
+}
+
+.block-item--placeholder {
+    border: 2px dashed var(--pixel-primary);
+    background: rgba(255, 107, 53, 0.1);
+}
+
+/* Block Item Handle */
+.block-item__handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--pixel-text-secondary);
+    cursor: grab;
+    flex-shrink: 0;
+}
+
+.block-item__handle:active {
+    cursor: grabbing;
+}
+
+.block-item__handle svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Block Item Thumbnail */
+.block-item__thumb {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--pixel-radius-sm);
+    background: var(--pixel-bg-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.block-item__thumb canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* Block Item Info */
+.block-item__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.block-item__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--pixel-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.block-item__size {
+    font-size: 0.75rem;
+    color: var(--pixel-text-secondary);
+    margin-top: 0.125rem;
+}
+
+/* Block Item Delete Button */
+.block-item__delete {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: transparent;
+    border: none;
+    color: var(--pixel-text-secondary);
+    cursor: pointer;
+    transition: all var(--pixel-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.block-item__delete:hover {
+    background: var(--pixel-error);
+    color: white;
+}
+
+.block-item__delete svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* ===== Scrollbar for Block List ===== */
+.block-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.block-list::-webkit-scrollbar-track {
+    background: var(--pixel-bg-main);
+    border-radius: 3px;
+}
+
+.block-list::-webkit-scrollbar-thumb {
+    background: var(--pixel-border);
+    border-radius: 3px;
+}
+
+.block-list::-webkit-scrollbar-thumb:hover {
+    background: var(--pixel-text-secondary);
 }

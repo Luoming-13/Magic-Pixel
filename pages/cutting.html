@@ -63,9 +63,26 @@
         <!-- 左侧控制面板 -->
         <aside class="control-panel">
             <div class="control-card">
+                <!-- 工作模式导航 -->
+                <nav class="mode-nav">
+                    <button class="mode-nav__btn mode-nav__btn--active" data-mode="auto">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <span>自动检测</span>
+                    </button>
+                    <button class="mode-nav__btn" data-mode="manual">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M9 3v18M3 9h18"/>
+                        </svg>
+                        <span>手动框选</span>
+                    </button>
+                </nav>
+
                 <!-- 上传区域 -->
                 <div class="card-section">
-                    <h3 class="card-section__title">上传图片</h3>
+                    <h3 class="card-section__title">导入源图</h3>
                     <div class="upload-zone" id="uploadZone">
                         <div class="upload-zone__content">
                             <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -74,57 +91,153 @@
                                 <line x1="12" y1="3" x2="12" y2="15"></line>
                             </svg>
                             <p class="upload-zone__text">拖拽图片到此处</p>
-                            <p class="upload-zone__subtext">或点击选择文件</p>
                             <p class="upload-zone__formats">支持 JPG, PNG, GIF, WebP, BMP</p>
                         </div>
                         <input type="file" id="fileInput" accept="image/*" hidden>
                     </div>
-                    <div class="image-info" id="imageInfo" style="display: none;">
-                        <span class="image-info__name" id="imageName"></span>
-                        <span class="image-info__size" id="imageSize"></span>
+                    <div class="source-info" id="sourceInfo" style="display: none;">
+                        <span id="sourceName">--</span>
+                        <button class="btn-clear" id="clearSourceBtn">清空</button>
                     </div>
                 </div>
 
-                <!-- 切割设置 -->
-                <div class="card-section">
-                    <h3 class="card-section__title">切割设置</h3>
+                <!-- 检测设置（自动模式） -->
+                <div class="card-section card-section--collapsible" id="autoSettings">
+                    <h3 class="card-section__title card-section__title--collapsible">
+                        <span class="card-section__toggle-icon"></span>
+                        <span class="card-section__title-text">检测设置</span>
+                    </h3>
+                    <div class="card-section__content">
+                        <div class="control-group">
+                            <label class="control-group__label">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" id="detectByTransparency" checked>
+                                    <span>透明背景检测</span>
+                                </div>
+                            </label>
+                            <label class="control-group__label">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" id="detectByBackground">
+                                    <span>背景色分离检测</span>
+                                </div>
+                            </label>
+                            <label class="control-group__label">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" id="detectMultipleRegions">
+                                    <span>检测多区域</span>
+                                </div>
+                            </label>
+                            <label class="control-group__label">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" id="autoSplitFrames">
+                                    <span>自动拆分多区域</span>
+                                </div>
+                            </label>
+                            <label class="control-group__label">
+                                <span>边距 (px)</span>
+                                <input type="number" id="detectPadding" class="control-group__input" value="0" min="0" max="50">
+                            </label>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn--primary btn--full" id="autoDetectBtn" disabled>
+                                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="7" height="7"/>
+                                    <rect x="14" y="3" width="7" height="7"/>
+                                    <rect x="3" y="14" width="7" height="7"/>
+                                    <rect x="14" y="14" width="7" height="7"/>
+                                </svg>
+                                <span>拆分</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 手动框选工具（手动模式） -->
+                <div class="card-section" id="manualTools" style="display: none;">
+                    <h3 class="card-section__title">框选检测</h3>
+                    <p class="hint-text">框选区域后，将在该区域内检测独立块</p>
+                    <div class="btn-group">
+                        <button class="btn btn--secondary" id="undoBlockBtn" disabled>
+                            <span>撤销上一个</span>
+                        </button>
+                        <button class="btn btn--secondary" id="clearAllBlocksBtn" disabled>
+                            <span>清除全部</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 块列表 -->
+                <div class="card-section" id="blockListSection" style="display: none;">
+                    <h3 class="card-section__title">
+                        提取的块
+                        <span class="block-count" id="blockCount">0 个</span>
+                    </h3>
+                    <p class="drag-hint">拖拽调整顺序</p>
+                    <div class="block-list" id="blockList"></div>
+                </div>
+
+                <!-- 对齐设置 -->
+                <div class="card-section" id="alignSettings" style="display: none;">
+                    <h3 class="card-section__title">对齐锚点</h3>
                     <div class="control-group">
                         <label class="control-group__label">
-                            <span>横向切割数</span>
-                            <div class="input-with-slider">
-                                <input type="number" id="colsInput" class="control-group__input" value="3" min="1" max="50">
-                                <input type="range" id="colsSlider" class="slider" value="3" min="1" max="10">
+                            <span>锚点位置</span>
+                            <div class="pivot-selector">
+                                <button class="pivot-btn pivot-btn--active" data-pivot="bottom-center" title="底部居中 - RPG行走图">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="4" width="16" height="16" rx="2" stroke-dasharray="4 2"/>
+                                        <circle cx="12" cy="20" r="2" fill="currentColor"/>
+                                        <line x1="12" y1="4" x2="12" y2="18" stroke-dasharray="2 2"/>
+                                    </svg>
+                                </button>
+                                <button class="pivot-btn" data-pivot="center-center" title="正中心 - 飞行道具、特效">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="4" width="16" height="16" rx="2" stroke-dasharray="4 2"/>
+                                        <circle cx="12" cy="12" r="2" fill="currentColor"/>
+                                        <line x1="12" y1="4" x2="12" y2="20" stroke-dasharray="2 2"/>
+                                        <line x1="4" y1="12" x2="20" y2="12" stroke-dasharray="2 2"/>
+                                    </svg>
+                                </button>
+                                <button class="pivot-btn" data-pivot="top-left" title="左上角 - UI元素">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="4" y="4" width="16" height="16" rx="2" stroke-dasharray="4 2"/>
+                                        <circle cx="4" cy="4" r="2" fill="currentColor"/>
+                                    </svg>
+                                </button>
                             </div>
                         </label>
                         <label class="control-group__label">
-                            <span>纵向切割数</span>
+                            <span>标准化尺寸</span>
+                            <div class="size-display" id="standardSize">
+                                <span>宽: -- | 高: --</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 精灵表设置 -->
+                <div class="card-section" id="sheetSettings" style="display: none;">
+                    <h3 class="card-section__title">精灵表设置</h3>
+                    <div class="control-group">
+                        <label class="control-group__label">
+                            <span>列数</span>
                             <div class="input-with-slider">
-                                <input type="number" id="rowsInput" class="control-group__input" value="3" min="1" max="50">
-                                <input type="range" id="rowsSlider" class="slider" value="3" min="1" max="10">
+                                <input type="number" id="sheetColsInput" class="control-group__input" value="4" min="1" max="50">
+                                <input type="range" id="sheetColsSlider" class="slider" value="4" min="1" max="16">
                             </div>
                         </label>
                         <label class="control-group__label">
-                            <span>滑块上限</span>
-                            <div class="slider-limit">
-                                <input type="number" id="sliderMaxInput" class="control-group__input slider-limit__input" value="10" min="1" max="50">
-                            </div>
+                            <span>间距 (px)</span>
+                            <input type="number" id="sheetSpacing" class="control-group__input" value="0" min="0" max="100">
                         </label>
                     </div>
-                    <div class="piece-size-info" id="pieceSizeInfo">
-                        <span>切割块尺寸: --</span>
-                    </div>
-                    <div class="btn-group">
-                        <button class="btn btn--secondary" id="previewBtn" disabled>
-                            <span>预览切割线</span>
-                        </button>
-                        <button class="btn btn--primary" id="cutBtn" disabled>
-                            <span>执行切割</span>
-                        </button>
+                    <div class="output-size-info" id="sheetSizeInfo">
+                        <span>输出尺寸: --</span>
                     </div>
                 </div>
 
                 <!-- 导出选项 -->
-                <div class="card-section">
+                <div class="card-section" id="exportSection" style="display: none;">
                     <h3 class="card-section__title">导出选项</h3>
                     <div class="control-group">
                         <label class="control-group__label">
@@ -142,20 +255,20 @@
                         </label>
                         <label class="control-group__label">
                             <span>文件名前缀</span>
-                            <input type="text" id="prefixInput" class="control-group__input" value="piece" placeholder="piece">
+                            <input type="text" id="fileNamePrefix" class="control-group__input" value="sprite_sheet" placeholder="sprite_sheet">
                         </label>
                     </div>
                     <div class="btn-group">
-                        <button class="btn btn--secondary" id="downloadSingleBtn" disabled>
-                            <span>下载单个</span>
+                        <button class="btn btn--secondary" id="previewSheetBtn" disabled>
+                            <span>预览精灵表</span>
                         </button>
-                        <button class="btn btn--primary" id="downloadZipBtn" disabled>
+                        <button class="btn btn--primary" id="exportSheetBtn" disabled>
                             <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
-                            <span>打包 ZIP 下载</span>
+                            <span>导出精灵表</span>
                         </button>
                     </div>
                 </div>
@@ -164,17 +277,18 @@
 
         <!-- 右侧预览区域 -->
         <section class="preview-area">
-            <!-- 原图预览 -->
-            <div class="preview-section">
+            <!-- 框选预览（手动模式专用） -->
+            <div class="preview-section" id="slicePreviewSection" style="display: none;">
                 <h2 class="section-title">
-                    原图预览
+                    框选预览
+                    <span class="slice-info" id="sliceInfo">拖拽绘制框选区域</span>
                     <div class="zoom-control">
                         <span class="zoom-control__label">缩放</span>
-                        <input type="range" id="previewZoomSlider" class="zoom-slider" min="10" max="200" value="100">
-                        <span class="zoom-control__value" id="previewZoomValue">100%</span>
+                        <input type="range" id="sliceZoomSlider" class="zoom-slider" min="10" max="200" value="100">
+                        <span class="zoom-control__value" id="sliceZoomValue">100%</span>
                     </div>
                 </h2>
-                <div class="preview-container preview-container--zoomable" id="previewContainer">
+                <div class="preview-container preview-container--zoomable" id="slicePreviewContainer">
                     <div class="preview-placeholder">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -182,25 +296,73 @@
                             <polyline points="21 15 16 10 5 21"></polyline>
                         </svg>
                     </div>
-                    <div class="preview-wrapper" id="previewWrapper" style="display: none;">
-                        <canvas id="previewCanvas"></canvas>
-                        <div class="grid-overlay" id="gridOverlay"></div>
+                    <div class="preview-wrapper" id="slicePreviewWrapper" style="display: none;">
+                        <canvas id="sliceCanvas"></canvas>
                     </div>
                 </div>
             </div>
 
-            <!-- 切割结果预览 -->
-            <div class="pieces-section" id="piecesSection" style="display: none;">
+            <!-- 序列帧列表和对齐预览并列 -->
+            <div class="preview-row">
+                <!-- 序列帧列表 -->
+                <div class="preview-section" id="frameListSection">
+                    <h2 class="section-title">
+                        序列帧列表
+                        <span class="frame-list-count" id="frameListCount">0 帧</span>
+                        <button class="btn-clear" id="clearFrameListBtn">清空</button>
+                    </h2>
+                    <div class="frame-list" id="frameList">
+                        <div class="preview-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 对齐预览 -->
+                <div class="preview-section" id="alignPreviewSection">
+                    <h2 class="section-title">
+                        对齐预览
+                        <div class="alignment-info">
+                            <span class="tag tag--primary" id="pivotTag">底部居中</span>
+                            <span class="tag" id="sizeTag">-- × --</span>
+                        </div>
+                    </h2>
+                    <div class="align-grid" id="alignGrid">
+                        <div class="preview-placeholder">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 精灵表预览 -->
+            <div class="preview-section" id="sheetPreviewSection">
                 <h2 class="section-title">
-                    切割结果
-                    <span class="pieces-count" id="piecesCount"></span>
+                    精灵表预览
                     <div class="zoom-control">
                         <span class="zoom-control__label">缩放</span>
-                        <input type="range" id="piecesZoomSlider" class="zoom-slider" min="10" max="200" value="100">
-                        <span class="zoom-control__value" id="piecesZoomValue">100%</span>
+                        <input type="range" id="sheetZoomSlider" class="zoom-slider" min="10" max="200" value="100">
+                        <span class="zoom-control__value" id="sheetZoomValue">100%</span>
                     </div>
                 </h2>
-                <div class="piece-grid piece-grid--zoomable" id="pieceGrid"></div>
+                <div class="preview-container preview-container--zoomable" id="sheetPreviewContainer">
+                    <div class="preview-placeholder">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <polyline points="21 15 16 10 5 21"></polyline>
+                        </svg>
+                    </div>
+                    <canvas id="sheetPreviewCanvas" style="display: none;"></canvas>
+                </div>
             </div>
         </section>
     </main>
@@ -227,12 +389,14 @@
     <script src="../js/utils/canvasUtils.js"></script>
     <script src="../js/utils/fileUtils.js"></script>
     <script src="../js/utils/previewUtils.js"></script>
-    <script src="../js/modules/imageLoader.js"></script>
-    <script src="../js/modules/imageProcessor.js"></script>
-    <script src="../js/modules/imageExporter.js"></script>
-    <script src="../js/modules/uiController.js"></script>
     <script src="../js/modules/gridDetector.js"></script>
-    <script src="../js/app.js"></script>
+    <script src="../js/modules/blockManager.js"></script>
+    <script src="../js/modules/frameLoader.js"></script>
+    <script src="../js/modules/autoSlicer.js"></script>
+    <script src="../js/modules/manualSelector.js"></script>
+    <script src="../js/modules/frameAligner.js"></script>
+    <script src="../js/modules/spriteSheetGenerator.js"></script>
+    <script src="../js/frameStandardizerApp.js"></script>
 
     <!-- 分享弹窗 -->
     <div class="share-modal" id="shareModal">

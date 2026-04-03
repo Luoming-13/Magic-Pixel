@@ -55,21 +55,23 @@ const FrameStandardizerApp = {
             detectByTransparency: DOM.$('#detectByTransparency'),
             detectByBackground: DOM.$('#detectByBackground'),
             detectPadding: DOM.$('#detectPadding'),
+            autoDetectBtn: DOM.$('#autoDetectBtn'),
 
             // 手动工具
             manualTools: DOM.$('#manualTools'),
             undoBlockBtn: DOM.$('#undoBlockBtn'),
             clearAllBlocksBtn: DOM.$('#clearAllBlocksBtn'),
 
-            // 块列表
-            blockListSection: DOM.$('#blockListSection'),
-            blockCount: DOM.$('#blockCount'),
-            blockList: DOM.$('#blockList'),
+            // 对齐预览
+            alignBlockCount: DOM.$('#alignBlockCount'),
+            clearAlignBlocksBtn: DOM.$('#clearAlignBlocksBtn'),
 
-            // 对齐设置
-            alignSettings: DOM.$('#alignSettings'),
-            pivotBtns: DOM.$$('.pivot-btn'),
-            standardSize: DOM.$('#standardSize'),
+            // 锚点下拉菜单
+            pivotDropdown: DOM.$('#pivotDropdown'),
+            pivotDropdownBtn: DOM.$('#pivotDropdownBtn'),
+            pivotDropdownMenu: DOM.$('#pivotDropdownMenu'),
+            pivotDropdownItems: DOM.$$('.pivot-dropdown__item'),
+            pivotTag: DOM.$('#pivotTag'),
 
             // 精灵表设置
             sheetSettings: DOM.$('#sheetSettings'),
@@ -94,7 +96,6 @@ const FrameStandardizerApp = {
             slicePreviewWrapper: DOM.$('#slicePreviewWrapper'),
             sliceCanvas: DOM.$('#sliceCanvas'),
             alignPreviewSection: DOM.$('#alignPreviewSection'),
-            pivotTag: DOM.$('#pivotTag'),
             sizeTag: DOM.$('#sizeTag'),
             alignGrid: DOM.$('#alignGrid'),
             sheetPreviewSection: DOM.$('#sheetPreviewSection'),
@@ -148,13 +149,27 @@ const FrameStandardizerApp = {
         // 清空源图
         DOM.on(this._elements.clearSourceBtn, 'click', () => this._clearSource());
 
+        // 拆分按钮
+        DOM.on(this._elements.autoDetectBtn, 'click', () => this._runAutoDetect());
+
         // 手动工具
         DOM.on(this._elements.undoBlockBtn, 'click', () => this._undoLastBlock());
         DOM.on(this._elements.clearAllBlocksBtn, 'click', () => this._clearAllBlocks());
+        DOM.on(this._elements.clearAlignBlocksBtn, 'click', () => this._clearAllBlocks());
 
-        // 锚点选择
-        this._elements.pivotBtns.forEach(btn => {
-            DOM.on(btn, 'click', () => this._selectPivot(btn.dataset.pivot));
+        // 锚点下拉菜单
+        DOM.on(this._elements.pivotDropdownBtn, 'click', (e) => {
+            e.stopPropagation();
+            this._togglePivotDropdown();
+        });
+        this._elements.pivotDropdownItems.forEach(item => {
+            DOM.on(item, 'click', () => this._selectPivot(item.dataset.pivot));
+        });
+        // 点击外部关闭下拉菜单
+        DOM.on(document, 'click', (e) => {
+            if (!this._elements.pivotDropdown.contains(e.target)) {
+                this._closePivotDropdown();
+            }
         });
 
         // 精灵表设置
@@ -299,6 +314,9 @@ const FrameStandardizerApp = {
         this._elements.sourceName.textContent = source.name;
         DOM.show(this._elements.sourceInfo);
 
+        // 更新按钮状态
+        this._updateButtonStates();
+
         // 根据模式处理
         if (this._mode === 'auto') {
             this._runAutoDetect();
@@ -344,19 +362,18 @@ const FrameStandardizerApp = {
             this.hideLoading();
 
             if (blocks.length > 0) {
-                // 渲染块列表
-                this._renderBlockList();
-
                 // 计算对齐
                 this._calculateAlignment();
 
                 this.showToast(`检测完成，提取 ${blocks.length} 个块`, 'success');
             } else {
+                this._updateButtonStates();
                 this.showToast('未检测到有效块，请尝试调整检测设置或使用手动模式', 'warning');
             }
 
         } catch (error) {
             this.hideLoading();
+            this._updateButtonStates();
             this.showToast('检测失败: ' + error.message, 'error');
         }
     },
@@ -398,9 +415,6 @@ const FrameStandardizerApp = {
 
                 // 更新框选预览
                 ManualSelector.setBlocks(this._blocks);
-
-                // 更新块列表
-                this._renderBlockList();
 
                 // 计算对齐
                 this._calculateAlignment();
@@ -444,14 +458,12 @@ const FrameStandardizerApp = {
 
         // 更新UI
         ManualSelector.setBlocks(this._blocks);
-        this._renderBlockList();
 
         if (this._blocks.length > 0) {
             this._calculateAlignment();
         } else {
             this._state = 'loaded';
-            DOM.hide(this._elements.blockListSection);
-            DOM.hide(this._elements.alignSettings);
+            this._clearAlignPreview();
             DOM.hide(this._elements.sheetSettings);
             DOM.hide(this._elements.exportSection);
         }
@@ -470,8 +482,7 @@ const FrameStandardizerApp = {
 
         // 更新UI
         ManualSelector.setBlocks([]);
-        DOM.hide(this._elements.blockListSection);
-        DOM.hide(this._elements.alignSettings);
+        this._clearAlignPreview();
         DOM.hide(this._elements.sheetSettings);
         DOM.hide(this._elements.exportSection);
 
@@ -495,189 +506,62 @@ const FrameStandardizerApp = {
         // 隐藏控制区域
         DOM.hide(this._elements.sourceInfo);
         DOM.hide(this._elements.slicePreviewSection);
-        DOM.hide(this._elements.blockListSection);
-        DOM.hide(this._elements.alignSettings);
+        this._clearAlignPreview();
         DOM.hide(this._elements.sheetSettings);
         DOM.hide(this._elements.exportSection);
 
         // 清空文件输入
         this._elements.fileInput.value = '';
 
+        // 更新按钮状态
+        this._updateButtonStates();
+
         this.showToast('已清空', 'info');
     },
 
     /**
-     * 渲染块列表
+     * 清空对齐预览
      */
-    _renderBlockList() {
-        const container = this._elements.blockList;
+    _clearAlignPreview() {
+        const container = this._elements.alignGrid;
         DOM.empty(container);
 
+        // 添加占位符
+        container.innerHTML = `
+            <div class="preview-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                    <polyline points="21 15 16 10 5 21"></polyline>
+                </svg>
+            </div>
+        `;
+
         // 更新块计数
-        this._elements.blockCount.textContent = `${this._blocks.length} 个`;
-
-        // 显示块列表区域
-        DOM.show(this._elements.blockListSection);
-
-        this._blocks.forEach((block, index) => {
-            const item = DOM.createElement('div', 'block-item', {
-                data: { index: index },
-                draggable: true
-            });
-
-            // 拖拽手柄
-            const handle = DOM.createElement('div', 'block-item__handle');
-            handle.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="3" y1="6" x2="21" y2="6"/>
-                    <line x1="3" y1="12" x2="21" y2="12"/>
-                    <line x1="3" y1="18" x2="21" y2="18"/>
-                </svg>
-            `;
-            item.appendChild(handle);
-
-            // 缩略图
-            const thumb = DOM.createElement('div', 'block-item__thumb');
-            const thumbCanvas = this._createBlockThumbnail(block);
-            thumb.appendChild(thumbCanvas);
-            item.appendChild(thumb);
-
-            // 信息
-            const info = DOM.createElement('div', 'block-item__info');
-            const name = DOM.createElement('div', 'block-item__name', {
-                textContent: block.name
-            });
-            info.appendChild(name);
-
-            const size = DOM.createElement('div', 'block-item__size', {
-                textContent: `${block.region.width} × ${block.region.height}`
-            });
-            info.appendChild(size);
-            item.appendChild(info);
-
-            // 删除按钮
-            const deleteBtn = DOM.createElement('button', 'block-item__delete');
-            deleteBtn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"/>
-                    <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-            `;
-            DOM.on(deleteBtn, 'click', (e) => {
-                e.stopPropagation();
-                this._deleteBlock(block.id);
-            });
-            item.appendChild(deleteBtn);
-
-            // 拖拽事件
-            DOM.on(item, 'dragstart', (e) => this._onBlockDragStart(e, index));
-            DOM.on(item, 'dragover', (e) => this._onBlockDragOver(e, index));
-            DOM.on(item, 'drop', (e) => this._onBlockDrop(e, index));
-            DOM.on(item, 'dragend', () => this._onBlockDragEnd());
-
-            container.appendChild(item);
-        });
+        this._elements.alignBlockCount.textContent = '0 个';
     },
 
     /**
-     * 创建块缩略图
+     * 切换锚点下拉菜单
      */
-    _createBlockThumbnail(block) {
-        const canvas = document.createElement('canvas');
-        const maxSize = 48;
-        const scale = Math.min(maxSize / block.region.width, maxSize / block.region.height);
-        canvas.width = block.region.width * scale;
-        canvas.height = block.region.height * scale;
-
-        const ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-
-        ctx.drawImage(
-            block.sourceImage,
-            block.region.x, block.region.y, block.region.width, block.region.height,
-            0, 0, canvas.width, canvas.height
-        );
-
-        return canvas;
+    _togglePivotDropdown() {
+        this._elements.pivotDropdown.classList.toggle('pivot-dropdown--open');
     },
 
     /**
-     * 删除块
+     * 关闭锚点下拉菜单
      */
-    _deleteBlock(blockId) {
-        const index = this._blocks.findIndex(b => b.id === blockId);
-        if (index === -1) return;
-
-        this._blocks.splice(index, 1);
-
-        // 更新索引
-        this._blocks.forEach((block, i) => {
-            block.index = i;
-        });
-
-        // 更新UI
-        ManualSelector.setBlocks(this._blocks);
-        this._renderBlockList();
-
-        if (this._blocks.length > 0) {
-            this._calculateAlignment();
-        } else {
-            this._state = 'loaded';
-            DOM.hide(this._elements.alignSettings);
-            DOM.hide(this._elements.sheetSettings);
-            DOM.hide(this._elements.exportSection);
-        }
-    },
-
-    // 拖拽状态
-    _dragState: {
-        fromIndex: -1
-    },
-
-    _onBlockDragStart(e, index) {
-        this._dragState.fromIndex = index;
-        e.dataTransfer.effectAllowed = 'move';
-        e.target.classList.add('block-item--dragging');
-    },
-
-    _onBlockDragOver(e, index) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-    },
-
-    _onBlockDrop(e, toIndex) {
-        e.preventDefault();
-        const fromIndex = this._dragState.fromIndex;
-
-        if (fromIndex !== -1 && fromIndex !== toIndex) {
-            // 重新排序
-            const [moved] = this._blocks.splice(fromIndex, 1);
-            this._blocks.splice(toIndex, 0, moved);
-
-            // 更新索引
-            this._blocks.forEach((block, i) => {
-                block.index = i;
-            });
-
-            // 重新渲染
-            this._renderBlockList();
-            this._previewSpriteSheet();
-        }
-    },
-
-    _onBlockDragEnd() {
-        this._dragState.fromIndex = -1;
-        const items = this._elements.blockList.querySelectorAll('.block-item');
-        items.forEach(item => item.classList.remove('block-item--dragging'));
+    _closePivotDropdown() {
+        this._elements.pivotDropdown.classList.remove('pivot-dropdown--open');
     },
 
     /**
      * 选择锚点类型
      */
     _selectPivot(pivotType) {
-        this._elements.pivotBtns.forEach(btn => {
-            btn.classList.toggle('pivot-btn--active', btn.dataset.pivot === pivotType);
+        // 更新下拉菜单项的激活状态
+        this._elements.pivotDropdownItems.forEach(item => {
+            item.classList.toggle('pivot-dropdown__item--active', item.dataset.pivot === pivotType);
         });
 
         const pivotNames = {
@@ -686,6 +570,9 @@ const FrameStandardizerApp = {
             'top-left': '左上角'
         };
         this._elements.pivotTag.textContent = pivotNames[pivotType] || pivotType;
+
+        // 关闭下拉菜单
+        this._closePivotDropdown();
 
         FrameAligner.setPivotType(pivotType);
 
@@ -710,14 +597,12 @@ const FrameStandardizerApp = {
         this._state = 'aligned';
 
         // 更新标准化尺寸显示
-        this._elements.standardSize.innerHTML = `<span>宽: ${result.maxSize.width} | 高: ${result.maxSize.height}</span>`;
         this._elements.sizeTag.textContent = `${result.maxSize.width} × ${result.maxSize.height}`;
 
         // 渲染对齐预览
         this._renderAlignPreview(this._blocks, result.maxSize);
 
         // 显示设置区域
-        DOM.show(this._elements.alignSettings);
         DOM.show(this._elements.sheetSettings);
         DOM.show(this._elements.exportSection);
 
@@ -735,24 +620,187 @@ const FrameStandardizerApp = {
         const container = this._elements.alignGrid;
         DOM.empty(container);
 
-        // 显示前 8 个块预览
-        const previewBlocks = blocks.slice(0, 8);
+        // 更新块计数
+        this._elements.alignBlockCount.textContent = `${blocks.length} 个`;
 
-        previewBlocks.forEach((block, index) => {
-            const item = DOM.createElement('div', 'align-grid__item');
+        blocks.forEach((block, index) => {
+            const item = DOM.createElement('div', 'align-grid__item', {
+                data: { blockId: block.id, index: index }
+            });
 
+            // Canvas 预览
             const canvas = FrameAligner.renderPreview(block, maxSize);
             if (canvas) {
                 item.appendChild(canvas);
             }
 
+            // 序号
             const num = DOM.createElement('span', 'align-grid__num', {
                 textContent: String(index + 1).padStart(2, '0')
             });
             item.appendChild(num);
 
+            // 操作按钮组
+            const actions = DOM.createElement('div', 'align-grid__actions');
+
+            // 删除按钮
+            const deleteBtn = DOM.createElement('button', 'align-grid__action--delete', {
+                innerHTML: `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 6L6 18M6 6l12 12"/>
+                    </svg>
+                `,
+                title: '删除此块'
+            });
+            DOM.on(deleteBtn, 'click', (e) => {
+                e.stopPropagation();
+                this._deleteAlignBlock(block.id);
+            });
+            actions.appendChild(deleteBtn);
+
+            // 拖拽手柄
+            const moveBtn = DOM.createElement('button', 'align-grid__action--move', {
+                innerHTML: `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="5" r="1"/>
+                        <circle cx="9" cy="12" r="1"/>
+                        <circle cx="9" cy="19" r="1"/>
+                        <circle cx="15" cy="5" r="1"/>
+                        <circle cx="15" cy="12" r="1"/>
+                        <circle cx="15" cy="19" r="1"/>
+                    </svg>
+                `,
+                title: '拖拽移动顺序'
+            });
+            moveBtn.setAttribute('draggable', 'true');
+            actions.appendChild(moveBtn);
+
+            item.appendChild(actions);
             container.appendChild(item);
+
+            // 绑定拖拽事件到容器项
+            this._bindAlignItemDragEvents(item, index);
         });
+
+        // 绑定容器拖放事件
+        this._bindAlignContainerDragEvents(container);
+    },
+
+    /**
+     * 绑定对齐预览项的拖拽事件
+     */
+    _bindAlignItemDragEvents(item, index) {
+        const moveBtn = item.querySelector('.align-grid__action--move');
+
+        if (moveBtn) {
+            DOM.on(moveBtn, 'dragstart', (e) => {
+                this._dragState.fromIndex = index;
+                e.dataTransfer.effectAllowed = 'move';
+                item.classList.add('dragging');
+                moveBtn.classList.add('dragging');
+            });
+
+            DOM.on(moveBtn, 'dragend', () => {
+                item.classList.remove('dragging');
+                moveBtn.classList.remove('dragging');
+                this._clearDragOverStates();
+            });
+        }
+    },
+
+    /**
+     * 绑定对齐预览容器的拖放事件
+     */
+    _bindAlignContainerDragEvents(container) {
+        const items = container.querySelectorAll('.align-grid__item');
+
+        items.forEach(item => {
+            DOM.on(item, 'dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                if (this._dragState.fromIndex !== -1) {
+                    item.classList.add('drag-over');
+                }
+            });
+
+            DOM.on(item, 'dragleave', () => {
+                item.classList.remove('drag-over');
+            });
+
+            DOM.on(item, 'drop', (e) => {
+                e.preventDefault();
+                item.classList.remove('drag-over');
+
+                const toIndex = parseInt(item.dataset.index);
+                this._reorderAlignBlocks(this._dragState.fromIndex, toIndex);
+            });
+        });
+    },
+
+    /**
+     * 清除所有拖拽悬停状态
+     */
+    _clearDragOverStates() {
+        const items = this._elements.alignGrid.querySelectorAll('.align-grid__item');
+        items.forEach(item => item.classList.remove('drag-over'));
+        this._dragState.fromIndex = -1;
+    },
+
+    /**
+     * 删除对齐预览中的块
+     */
+    _deleteAlignBlock(blockId) {
+        const index = this._blocks.findIndex(b => b.id === blockId);
+        if (index === -1) return;
+
+        this._blocks.splice(index, 1);
+
+        // 更新索引
+        this._blocks.forEach((block, i) => {
+            block.index = i;
+        });
+
+        // 更新UI
+        ManualSelector.setBlocks(this._blocks);
+
+        if (this._blocks.length > 0) {
+            this._calculateAlignment();
+        } else {
+            this._state = 'loaded';
+            this._clearAlignPreview();
+            DOM.hide(this._elements.sheetSettings);
+            DOM.hide(this._elements.exportSection);
+        }
+    },
+
+    /**
+     * 重新排序对齐预览中的块
+     */
+    _reorderAlignBlocks(fromIndex, toIndex) {
+        if (fromIndex === -1 || fromIndex === toIndex) return;
+
+        // 重新排序
+        const [moved] = this._blocks.splice(fromIndex, 1);
+        this._blocks.splice(toIndex, 0, moved);
+
+        // 更新索引
+        this._blocks.forEach((block, i) => {
+            block.index = i;
+        });
+
+        // 重新渲染对齐预览
+        const result = FrameAligner.getResult();
+        if (result) {
+            this._renderAlignPreview(this._blocks, result.maxSize);
+        }
+
+        // 更新精灵表预览
+        this._previewSpriteSheet();
+    },
+
+    // 拖拽状态
+    _dragState: {
+        fromIndex: -1
     },
 
     /**
@@ -895,8 +943,10 @@ const FrameStandardizerApp = {
         const hasAligned = this._state === 'aligned' || this._state === 'generated';
         const hasGenerated = this._state === 'generated';
 
+        this._elements.autoDetectBtn.disabled = !hasSource;
         this._elements.undoBlockBtn.disabled = !hasBlocks;
         this._elements.clearAllBlocksBtn.disabled = !hasBlocks;
+        this._elements.clearAlignBlocksBtn.disabled = !hasBlocks;
         this._elements.previewSheetBtn.disabled = !hasAligned;
         this._elements.exportSheetBtn.disabled = !hasGenerated;
     },

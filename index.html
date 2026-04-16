@@ -8,7 +8,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Quicksand:wght@500;600;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -50,6 +50,15 @@
         }
     </script>
     <style>
+/* 自定义字体 */
+@font-face {
+    font-family: 'MaokenTangYuan';
+    src: url('fonts/猫啃网糖圆体(测试版)0.12.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* 隐藏滚动条 */
 html {
     scrollbar-width: none;           /* Firefox */
@@ -110,12 +119,22 @@ body::-webkit-scrollbar {
         }
 
         .feature-card__title {
-            font-family: 'Quicksand', 'Nunito', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 800;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.65rem;
+            font-weight: 600;
             color: #1a4875;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.02em;
             margin: 0;
+        }
+
+        .feature-card__desc {
+            font-family: 'MaokenTangYuan', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #5a9aab;
+            margin: 0;
+            margin-top: -0.25rem;
+            text-align: center;
         }
 
         .feature-card__icon {
@@ -174,12 +193,13 @@ body::-webkit-scrollbar {
         </div>
         <div class="flex justify-center mb-3">
             <div class="flex items-end">
-                <h1 class="font-display text-6xl sm:text-8xl font-bold leading-none" data-i18n="appName" style="color: #ffffff;">Magic Pixel</h1>
-                <span class="font-heading text-xs font-extrabold px-2 py-0.5 rounded-full ml-2" style="background-color: #5BA88F; color: white; letter-spacing: 1px;">V1</span>
+                <h1 class="font-display text-6xl sm:text-8xl font-bold leading-none" data-i18n="appName" style="color: #8B624A; -webkit-text-stroke: 30px #FEF8E8; paint-order: stroke fill;">Magic Pixel</h1>
+                <span class="font-heading text-xs font-extrabold px-2 py-0.5 rounded-full ml-6" style="background-color: #5BA88F; color: white; letter-spacing: 1px;">V1</span>
             </div>
         </div>
-        <p class="font-heading text-base sm:text-lg text-pixel-text-secondary mb-4 font-semibold">像素魔法工具箱</p>
-        <p class="text-sm sm:text-base text-pixel-text-secondary max-w-md mx-auto font-semibold">简单、高效的在线图片处理工具集</p>
+        <p class="text-[#2B4A6A]/60 text-sm font-bold tracking-wide mt-12 mb-6" style="font-family: 'MaokenTangYuan', sans-serif;">
+            把灵感剪裁、拼贴成可爱的游戏素材吧～
+        </p>
     </section>
 
     <!-- 波浪边框 -->
@@ -193,56 +213,71 @@ body::-webkit-scrollbar {
     <main class="max-w-5xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex flex-col">
         <!-- 功能卡片区域 -->
         <section class="mt-2 sm:mt-4 animate-fadeInUp-delay" style="background-color: #fdf4d7;">
-            <h2 class="font-heading text-xs text-pixel-text-muted text-center mb-6 font-semibold tracking-wide">SELECT TOOL</h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
                 <!-- Magic Cutting -->
-                <a href="pages/cutting.html" class="feature-card group flex flex-col items-center justify-center gap-4 p-8 overflow-hidden no-underline">
-                    <svg class="feature-card__icon w-12 h-12" style="color: #5BA88F;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14.5 17.5L3 6V3h3l11.5 11.5"/>
-                        <path d="M13 19l6-6"/>
-                        <path d="M16 16l4 4"/>
-                        <path d="M19 21l2-2"/>
+                <a href="pages/cutting.html" class="feature-card group flex flex-col items-center justify-center gap-2 p-8 overflow-hidden no-underline">
+                    <svg class="feature-card__icon w-12 h-12" style="color: #5BA88F;" viewBox="0 0 20 20" fill="currentColor">
+                        <!-- Heroicons 剪刀图标 -->
+                        <path fill-rule="evenodd" d="M1.469 3.75a3.5 3.5 0 0 0 5.617 4.11l.883.51c.025.092.147.116.21.043.15-.176.318-.338.5-.484.286-.23.3-.709-.018-.892l-.825-.477A3.501 3.501 0 0 0 1.47 3.75Zm2.03 3.482a2 2 0 1 1 2-3.464 2 2 0 0 1-2 3.464ZM9.956 8.322a2.75 2.75 0 0 0-1.588 1.822L7.97 11.63l-.884.51A3.501 3.501 0 0 0 1.47 16.25a3.5 3.5 0 0 0 6.367-2.81l10.68-6.166a.75.75 0 0 0-.182-1.373l-.703-.189a2.75 2.75 0 0 0-1.78.123L9.955 8.322ZM2.768 15.5a2 2 0 1 1 3.464-2 2 2 0 0 1-3.464 2Z" clip-rule="evenodd" />
+                        <path d="M12.52 11.89a.5.5 0 0 0 .056.894l3.274 1.381a2.75 2.75 0 0 0 1.78.123l.704-.189a.75.75 0 0 0 .18-1.373l-3.47-2.004a.5.5 0 0 0-.5 0L12.52 11.89Z" />
                     </svg>
                     <h3 class="feature-card__title">Magic Cutting</h3>
+                    <p class="feature-card__desc">零散块智能/框选切割，重排序</p>
                 </a>
 
                 <!-- Sprite Sheet -->
-                <a href="pages/sprite-sheet.html" class="feature-card group flex flex-col items-center justify-center gap-4 p-8 overflow-hidden no-underline">
-                    <svg class="feature-card__icon w-12 h-12" style="color: #5BA88F;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="6" y1="12" x2="10" y2="12"/>
-                        <line x1="8" y1="10" x2="8" y2="14"/>
-                        <line x1="15" y1="13" x2="15.01" y2="13"/>
-                        <line x1="18" y1="11" x2="18.01" y2="11"/>
+                <a href="pages/sprite-sheet.html" class="feature-card group flex flex-col items-center justify-center gap-2 p-8 overflow-hidden no-underline">
+                    <svg class="feature-card__icon w-12 h-12" style="color: #5BA88F;" viewBox="0 0 24 24" fill="currentColor">
                         <rect x="2" y="6" width="20" height="12" rx="2"/>
+                        <rect x="6" y="11" width="4" height="2" fill="#fdf4d7"/>
+                        <rect x="7" y="10" width="2" height="4" fill="#fdf4d7"/>
+                        <circle cx="15" cy="13" r="1.5" fill="#fdf4d7"/>
+                        <circle cx="18" cy="11" r="1.5" fill="#fdf4d7"/>
                     </svg>
                     <h3 class="feature-card__title">Sprite Sheet</h3>
+                    <p class="feature-card__desc">网格拆分与多图重组</p>
                 </a>
 
                 <!-- Image to Pixel -->
-                <a href="pages/image-to-pixel.html" class="feature-card group flex flex-col items-center justify-center gap-4 p-8 overflow-hidden no-underline">
-                    <svg class="feature-card__icon w-12 h-12" style="color: #5BA88F;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="3" width="7" height="7"/>
-                        <rect x="14" y="3" width="7" height="7"/>
-                        <rect x="14" y="14" width="7" height="7"/>
-                        <rect x="3" y="14" width="7" height="7"/>
+                <a href="pages/image-to-pixel.html" class="feature-card group flex flex-col items-center justify-center gap-2 p-8 overflow-hidden no-underline">
+                    <svg class="feature-card__icon w-12 h-12" style="color: #5BA88F;" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
                     </svg>
                     <h3 class="feature-card__title">Image to Pixel</h3>
+                    <p class="feature-card__desc">图片转像素</p>
                 </a>
 
                 <!-- Background Remover -->
-                <a href="pages/background-remover.html" class="feature-card group flex flex-col items-center justify-center gap-4 p-8 overflow-hidden no-underline">
-                    <svg class="feature-card__icon w-12 h-12" style="color: #5BA88F;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
-                        <circle cx="12" cy="13" r="3"/>
+                <a href="pages/background-remover.html" class="feature-card group flex flex-col items-center justify-center gap-2 p-8 overflow-hidden no-underline">
+                    <svg class="feature-card__icon w-12 h-12" style="color: #5BA88F;" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M4 7h3l2.5-3h5l2.5 3h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2z"/>
+                        <circle cx="12" cy="13" r="3" fill="#fdf4d7"/>
                     </svg>
-                    <h3 class="feature-card__title">背景移除</h3>
+                    <h3 class="feature-card__title">BG Remover</h3>
+                    <p class="feature-card__desc">背景去除</p>
                 </a>
             </div>
         </section>
 
 <!-- 页脚 -->
         <footer class="text-center py-8 mt-8" style="background-color: #fdf4d7;">
-            <p class="text-sm text-pixel-text-muted font-semibold">&copy; 2024 Magic Pixel. All rights reserved.</p>
+            <p class="font-semibold text-pixel-text-muted" style="font-family: 'MaokenTangYuan', sans-serif; font-size: 0.875rem; letter-spacing: 0.01;">
+                © 2026 Magic Pixel. Crafted with
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#E8A0B5" style="display: inline-block; vertical-align: -2px; margin: 0 2px;">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+                 and
+                <svg width="18" height="18" viewBox="0 0 24 24" style="display: inline-block; vertical-align: -3px; margin: 0 2px;">
+                    <path d="M2 19h18v2H2v-2z" fill="#A37452"/>
+                    <path d="M4 11c0 3.3 2.7 6 6 6h4c3.3 0 6-2.7 6-6V5H4v6z" fill="#C4A484"/>
+                    <path d="M18 9h2c1.1 0 2 .9 2 2s-.9 2-2 2h-2" stroke="#A37452" stroke-width="2" fill="none"/>
+                    <ellipse cx="7" cy="2" rx="1.5" ry="2" fill="#D4C4B0" opacity="0.6"/>
+                    <ellipse cx="11" cy="1.5" rx="1.5" ry="2" fill="#D4C4B0" opacity="0.5"/>
+                </svg>.
+            </p>
         </footer>
     </main>
 

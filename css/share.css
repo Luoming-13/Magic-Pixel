@@ -19,12 +19,12 @@
     border: 2px solid rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.2s ease;
-    background-color: #a37452;
+    background-color: var(--pixel-primary);
     color: white;
 }
 
 .share-btn:hover {
-    background-color: #8a6345;
+    background-color: var(--pixel-primary-dark);
     transform: translateY(-2px);
 }
 
@@ -53,12 +53,12 @@
     border: 2px solid rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.2s ease;
-    background-color: #a37452;
+    background-color: var(--pixel-primary);
     color: white;
 }
 
 .favorite-btn:hover {
-    background-color: #8a6345;
+    background-color: var(--pixel-primary-dark);
     transform: translateY(-2px);
 }
 
@@ -73,7 +73,7 @@
 
 /* 收藏已激活状态 */
 .favorite-btn--active {
-    background-color: #8a6345;
+    background-color: var(--pixel-primary-dark);
 }
 
 .favorite-btn--active svg {
@@ -87,7 +87,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(43, 74, 106, 0.5);
+    background: rgba(180, 140, 100, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -134,12 +134,12 @@
     justify-content: space-between;
     padding: 1rem 1.25rem;
     border-bottom: 3px dashed var(--pixel-card-border-dashed);
-    background: #F5EDE0;
+    background: rgba(255, 255, 255, 0.6);
     border-radius: var(--pixel-card-radius) var(--pixel-card-radius) 0 0;
 }
 
 .share-modal__header h3 {
-    font-family: 'Quicksand', sans-serif;
+    font-family: var(--font-heading);
     font-size: 1rem;
     font-weight: 700;
     color: var(--pixel-text-dark);
@@ -184,7 +184,7 @@
     font-family: 'Nunito', sans-serif;
     font-size: 0.8125rem;
     color: var(--pixel-text-dark);
-    background: #FFFDF5;
+    background: var(--pixel-bg-main);
     border: 3px dashed var(--pixel-card-border-dashed);
     border-radius: var(--pixel-radius-md);
     outline: none;
@@ -213,7 +213,7 @@
 }
 
 .share-copy-link__btn--copied {
-    background: #7A9B6B;
+    background: var(--pixel-success);
     border-color: #5A7B4B;
 }
 
@@ -230,7 +230,7 @@
     align-items: center;
     gap: 0.375rem;
     padding: 1rem 0.75rem;
-    background: #FFFDF5;
+    background: var(--pixel-bg-main);
     border: 3px dashed var(--pixel-card-border-dashed);
     border-radius: var(--pixel-card-radius);
     cursor: pointer;

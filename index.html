@@ -192,11 +192,22 @@ body::-webkit-scrollbar {
             height: 40px;
         }
     </style>
+    <link rel="stylesheet" href="css/i18n.css">
     <link rel="stylesheet" href="css/share.css">
 </head>
 <body class="min-h-screen text-pixel-text relative overflow-x-hidden" style="background-color: #fdf4d7;">
+    <!-- 语言切换按钮 -->
+    <button class="lang-switch" id="langSwitch" data-i18n-title="switchLang">
+        <svg class="lang-switch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+        <span class="lang-switch__current" id="langCurrent"></span>
+    </button>
+
     <!-- 分享按钮 -->
-    <button class="share-btn" id="shareBtn" title="分享">
+    <button class="share-btn" id="shareBtn" data-i18n-title="shareBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="18" cy="5" r="3"/>
             <circle cx="6" cy="12" r="3"/>
@@ -207,14 +218,14 @@ body::-webkit-scrollbar {
     </button>
 
     <!-- 收藏按钮 -->
-    <button class="favorite-btn" id="favoriteBtn" title="收藏">
+    <button class="favorite-btn" id="favoriteBtn" data-i18n-title="favoriteBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
         </svg>
     </button>
 
     <!-- 品牌区域 -->
-    <section class="text-center py-8 sm:py-16 animate-fadeInUp" style="background-color: #aedaaf;">
+    <section class="text-center pt-8 sm:pt-16 pb-12 animate-fadeInUp" style="background-color: #aedaaf;">
         <div class="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-4 animate-float text-pixel-primary" style="color: #499e91;">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                 <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
@@ -227,7 +238,7 @@ body::-webkit-scrollbar {
                 <span class="font-heading text-xs font-extrabold px-2 py-0.5 rounded-full ml-6" style="background-color: #5BA88F; color: white; letter-spacing: 1px;">V1</span>
             </div>
         </div>
-        <p class="text-[#2B4A6A]/60 text-sm font-bold tracking-wide mt-12 mb-6" style="font-family: 'MaokenTangYuan', sans-serif;">
+        <p class="text-[#2B4A6A]/60 text-sm font-bold tracking-wide mt-12 mb-6" data-i18n="appDesc" style="font-family: 'MaokenTangYuan', sans-serif;">
             把灵感剪裁、拼贴成可爱的游戏素材吧～
         </p>
     </section>
@@ -251,8 +262,8 @@ body::-webkit-scrollbar {
                         <path fill-rule="evenodd" d="M1.469 3.75a3.5 3.5 0 0 0 5.617 4.11l.883.51c.025.092.147.116.21.043.15-.176.318-.338.5-.484.286-.23.3-.709-.018-.892l-.825-.477A3.501 3.501 0 0 0 1.47 3.75Zm2.03 3.482a2 2 0 1 1 2-3.464 2 2 0 0 1-2 3.464ZM9.956 8.322a2.75 2.75 0 0 0-1.588 1.822L7.97 11.63l-.884.51A3.501 3.501 0 0 0 1.47 16.25a3.5 3.5 0 0 0 6.367-2.81l10.68-6.166a.75.75 0 0 0-.182-1.373l-.703-.189a2.75 2.75 0 0 0-1.78.123L9.955 8.322ZM2.768 15.5a2 2 0 1 1 3.464-2 2 2 0 0 1-3.464 2Z" clip-rule="evenodd" />
                         <path d="M12.52 11.89a.5.5 0 0 0 .056.894l3.274 1.381a2.75 2.75 0 0 0 1.78.123l.704-.189a.75.75 0 0 0 .18-1.373l-3.47-2.004a.5.5 0 0 0-.5 0L12.52 11.89Z" />
                     </svg>
-                    <h3 class="feature-card__title">Magic Cutting</h3>
-                    <p class="feature-card__desc">零散块智能/框选切割，重排序</p>
+                    <h3 class="feature-card__title" data-i18n="featureMagicCutting">Magic Cutting</h3>
+                    <p class="feature-card__desc" data-i18n="featureMagicCuttingDesc">零散块智能/框选切割，重排序</p>
                 </a>
 
                 <!-- Sprite Sheet -->
@@ -264,8 +275,8 @@ body::-webkit-scrollbar {
                         <circle cx="15" cy="13" r="1.5" fill="#fdf4d7"/>
                         <circle cx="18" cy="11" r="1.5" fill="#fdf4d7"/>
                     </svg>
-                    <h3 class="feature-card__title">Sprite Sheet</h3>
-                    <p class="feature-card__desc">网格拆分与多图重组</p>
+                    <h3 class="feature-card__title" data-i18n="featureSpriteSheet">Sprite Sheet</h3>
+                    <p class="feature-card__desc" data-i18n="featureSpriteSheetDesc">网格拆分与多图重组</p>
                 </a>
 
                 <!-- Image to Pixel -->
@@ -276,8 +287,8 @@ body::-webkit-scrollbar {
                         <rect x="14" y="14" width="7" height="7" rx="1"/>
                         <rect x="3" y="14" width="7" height="7" rx="1"/>
                     </svg>
-                    <h3 class="feature-card__title">Image to Pixel</h3>
-                    <p class="feature-card__desc">图片转像素</p>
+                    <h3 class="feature-card__title" data-i18n="featureImageToPixel">Image to Pixel</h3>
+                    <p class="feature-card__desc" data-i18n="featureImageToPixelDesc">图片转像素</p>
                 </a>
 
                 <!-- Background Remover -->
@@ -286,8 +297,8 @@ body::-webkit-scrollbar {
                         <path d="M4 7h3l2.5-3h5l2.5 3h3a2 2 0 012 2v9a2 2 0 01-2 2H4a2 2 0 01-2-2V9a2 2 0 012-2z"/>
                         <circle cx="12" cy="13" r="3" fill="#fdf4d7"/>
                     </svg>
-                    <h3 class="feature-card__title">BG Remover</h3>
-                    <p class="feature-card__desc">背景去除</p>
+                    <h3 class="feature-card__title" data-i18n="featureBGRemover">BG Remover</h3>
+                    <p class="feature-card__desc" data-i18n="featureBGRemoverDesc">背景去除</p>
                 </a>
             </div>
         </section>
@@ -315,32 +326,34 @@ body::-webkit-scrollbar {
     <div class="share-modal" id="shareModal">
         <div class="share-modal__content">
             <div class="share-modal__header">
-                <h3>分享 Magic Pixel</h3>
+                <h3 data-i18n="shareTitle">分享 Magic Pixel</h3>
                 <button class="share-modal__close" id="shareModalClose">&times;</button>
             </div>
             <div class="share-modal__body">
                 <div class="share-copy-link">
                     <input type="text" class="share-copy-link__input" id="shareUrlInput" readonly>
-                    <button class="share-copy-link__btn" id="copyLinkBtn">复制链接</button>
+                    <button class="share-copy-link__btn" id="copyLinkBtn" data-i18n="shareCopyLink">复制链接</button>
                 </div>
                 <div class="share-platforms">
                     <button class="share-platform share-platform--weibo" data-platform="weibo">
                         <span class="share-platform__icon">微</span>
-                        <span class="share-platform__name">微博</span>
+                        <span class="share-platform__name" data-i18n="shareWeibo">微博</span>
                     </button>
                     <button class="share-platform share-platform--twitter" data-platform="twitter">
                         <span class="share-platform__icon">X</span>
-                        <span class="share-platform__name">Twitter</span>
+                        <span class="share-platform__name" data-i18n="shareTwitter">Twitter</span>
                     </button>
                     <button class="share-platform share-platform--wechat" data-platform="wechat">
                         <span class="share-platform__icon">微</span>
-                        <span class="share-platform__name">微信</span>
+                        <span class="share-platform__name" data-i18n="shareWechat">微信</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="js/config/translations.js"></script>
+    <script src="js/modules/i18n.js"></script>
     <script src="js/config/constants.js"></script>
     <script src="js/modules/share.js"></script>
     <script>

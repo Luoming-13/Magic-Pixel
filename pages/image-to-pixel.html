@@ -13,14 +13,25 @@
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/components.css">
     <link rel="stylesheet" href="../css/image-to-pixel.css">
+    <link rel="stylesheet" href="../css/i18n.css">
     <link rel="stylesheet" href="../css/share.css">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body style="background-color: #fdf4d7;">
+    <!-- 语言切换按钮 -->
+    <button class="lang-switch" id="langSwitch" data-i18n-title="switchLang">
+        <svg class="lang-switch__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+        </svg>
+        <span class="lang-switch__current" id="langCurrent"></span>
+    </button>
+
     <!-- 分享按钮 -->
-    <button class="share-btn" id="shareBtn" title="分享">
+    <button class="share-btn" id="shareBtn" data-i18n-title="shareBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="18" cy="5" r="3"/>
             <circle cx="6" cy="12" r="3"/>
@@ -31,20 +42,20 @@
     </button>
 
     <!-- 收藏按钮 -->
-    <button class="favorite-btn" id="favoriteBtn" title="收藏">
+    <button class="favorite-btn" id="favoriteBtn" data-i18n-title="favoriteBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
         </svg>
     </button>
 
     <!-- 头部 -->
-    <header class="header">
+    <header class="header has-lang-switch">
         <div class="header__nav">
             <a href="../index.html" class="header__back">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                     <path d="M19 12H5M12 19l-7-7 7-7"/>
                 </svg>
-                <span>返回首页</span>
+                <span data-i18n="backHome">返回首页</span>
             </a>
         </div>
         <div class="header__logo">
@@ -75,7 +86,7 @@
             <div class="control-card">
                 <!-- 上传区域 -->
                 <div class="card-section">
-                    <h3 class="card-section__title">上传图片</h3>
+                    <h3 class="card-section__title" data-i18n="uploadImage">上传图片</h3>
                     <div class="upload-zone" id="uploadZone">
                         <div class="upload-zone__content">
                             <svg class="upload-zone__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -83,9 +94,9 @@
                                 <polyline points="17 8 12 3 7 8"></polyline>
                                 <line x1="12" y1="3" x2="12" y2="15"></line>
                             </svg>
-                            <p class="upload-zone__text">拖拽图片到此处</p>
-                            <p class="upload-zone__subtext">或点击选择文件</p>
-                            <p class="upload-zone__formats">支持 JPG, PNG, GIF, WebP, BMP</p>
+                            <p class="upload-zone__text" data-i18n="dragImage">拖拽图片到此处</p>
+                            <p class="upload-zone__subtext" data-i18n="orClickSelect">或点击选择文件</p>
+                            <p class="upload-zone__formats" data-i18n="supportedFormats">支持 JPG, PNG, GIF, WebP, BMP</p>
                         </div>
                         <input type="file" id="fileInput" accept="image/*" hidden>
                     </div>
@@ -97,31 +108,31 @@
 
                 <!-- 网格检测 -->
                 <div class="card-section">
-                    <h3 class="card-section__title">网格检测</h3>
+                    <h3 class="card-section__title" data-i18n="gridDetection">网格检测</h3>
                     <div class="control-group">
                         <label class="control-group__label">
                             <div class="checkbox-wrapper">
                                 <input type="checkbox" id="autoDetectGrid" checked>
-                                <span>自动检测网格线</span>
+                                <span data-i18n="autoGridDetect">自动检测网格线</span>
                             </div>
                         </label>
                         <label class="control-group__label">
-                            <span>单元格大小</span>
+                            <span data-i18n="cellSize">单元格大小</span>
                             <div class="grid-size-inputs">
-                                <input type="number" id="cellWidthInput" class="control-group__input" value="16" min="1" max="256" placeholder="宽">
+                                <input type="number" id="cellWidthInput" class="control-group__input" value="16" min="1" max="256" data-i18n-placeholder="widthPlaceholder">
                                 <span class="input-separator">×</span>
-                                <input type="number" id="cellHeightInput" class="control-group__input" value="16" min="1" max="256" placeholder="高">
+                                <input type="number" id="cellHeightInput" class="control-group__input" value="16" min="1" max="256" data-i18n-placeholder="heightPlaceholder">
                             </div>
                         </label>
                         <div class="grid-detection-result" id="gridDetectionResult" style="display: none;">
-                            <span class="detection-label">检测结果:</span>
+                            <span class="detection-label" data-i18n="detectionResult">检测结果:</span>
                             <span class="detection-value" id="detectedCellSize">--</span>
                             <span class="detection-confidence" id="detectionConfidence"></span>
                         </div>
                         <label class="control-group__label">
                             <div class="checkbox-wrapper">
                                 <input type="checkbox" id="removeGridLines" checked>
-                                <span>移除网格线</span>
+                                <span data-i18n="removeGridLines">移除网格线</span>
                             </div>
                         </label>
                     </div>
@@ -129,10 +140,10 @@
 
                 <!-- 输出设置 -->
                 <div class="card-section">
-                    <h3 class="card-section__title">输出设置</h3>
+                    <h3 class="card-section__title" data-i18n="outputSettings">输出设置</h3>
                     <div class="control-group">
                         <label class="control-group__label">
-                            <span>输出尺寸 (像素)</span>
+                            <span data-i18n="outputSizePx">输出尺寸 (像素)</span>
                             <div class="output-size-inputs">
                                 <input type="number" id="outputWidthInput" class="control-group__input" value="32" min="1" max="256">
                                 <span class="input-separator">×</span>
@@ -142,23 +153,23 @@
                         <label class="control-group__label">
                             <div class="checkbox-wrapper">
                                 <input type="checkbox" id="keepAspectRatio" checked>
-                                <span>保持宽高比例</span>
+                                <span data-i18n="keepAspectRatio">保持宽高比例</span>
                             </div>
                         </label>
                     </div>
                     <div class="output-size-info" id="outputSizeInfo">
-                        <span>输出尺寸: --</span>
+                        <span data-i18n="outputSizeInfo">输出尺寸: --</span>
                     </div>
                 </div>
 
                 <!-- 像素化设置 -->
                 <div class="card-section">
-                    <h3 class="card-section__title">像素化设置</h3>
+                    <h3 class="card-section__title" data-i18n="pixelSettings">像素化设置</h3>
                     <div class="control-group">
                         <label class="control-group__label">
-                            <span>调色板</span>
+                            <span data-i18n="palette">调色板</span>
                             <select id="paletteSelect" class="control-group__input">
-                                <option value="auto">自动提取</option>
+                                <option value="auto" data-i18n="autoExtract">自动提取</option>
                                 <option value="nes">NES (54色)</option>
                                 <option value="gameboy">Game Boy (4色)</option>
                                 <option value="pico8">PICO-8 (16色)</option>
@@ -167,7 +178,7 @@
                             </select>
                         </label>
                         <label class="control-group__label" id="colorCountLabel">
-                            <span>颜色数量</span>
+                            <span data-i18n="colorCount">颜色数量</span>
                             <div class="color-count-btns">
                                 <button class="color-count-btn" data-count="8">8</button>
                                 <button class="color-count-btn active" data-count="16">16</button>
@@ -176,37 +187,37 @@
                             </div>
                         </label>
                         <label class="control-group__label">
-                            <span>采样方法</span>
+                            <span data-i18n="samplingMethod">采样方法</span>
                             <select id="samplingSelect" class="control-group__input">
-                                <option value="average">平均采样</option>
-                                <option value="center">中心点采样</option>
-                                <option value="dominant">主导色采样</option>
-                                <option value="median">中值采样</option>
+                                <option value="average" data-i18n="sampleAverage">平均采样</option>
+                                <option value="center" data-i18n="sampleCenter">中心点采样</option>
+                                <option value="dominant" data-i18n="sampleDominant">主导色采样</option>
+                                <option value="median" data-i18n="sampleMedian">中值采样</option>
                             </select>
                         </label>
                         <label class="control-group__label">
-                            <span>抖动算法</span>
+                            <span data-i18n="dithering">抖动算法</span>
                             <select id="ditheringSelect" class="control-group__input">
-                                <option value="none">无抖动</option>
-                                <option value="floydSteinberg">Floyd-Steinberg</option>
-                                <option value="atkinson">Atkinson</option>
-                                <option value="ordered">Ordered (Bayer)</option>
+                                <option value="none" data-i18n="ditherNone">无抖动</option>
+                                <option value="floydSteinberg" data-i18n="ditherFloydSteinberg">Floyd-Steinberg</option>
+                                <option value="atkinson" data-i18n="ditherAtkinson">Atkinson</option>
+                                <option value="ordered" data-i18n="ditherOrdered">Ordered (Bayer)</option>
                             </select>
                         </label>
                     </div>
                     <div class="btn-group">
                         <button class="btn btn--primary" id="convertBtn" disabled>
-                            <span>转换为像素图</span>
+                            <span data-i18n="convertPixel">转换为像素图</span>
                         </button>
                     </div>
                 </div>
 
                 <!-- 导出选项 -->
                 <div class="card-section">
-                    <h3 class="card-section__title">导出选项</h3>
+                    <h3 class="card-section__title" data-i18n="exportOptions">导出选项</h3>
                     <div class="control-group">
                         <label class="control-group__label">
-                            <span>导出格式</span>
+                            <span data-i18n="exportFormat">导出格式</span>
                             <div class="radio-group">
                                 <label class="radio-label">
                                     <input type="radio" name="exportFormat" value="png" checked>
@@ -219,7 +230,7 @@
                             </div>
                         </label>
                         <label class="control-group__label">
-                            <span>导出缩放</span>
+                            <span data-i18n="exportScale">导出缩放</span>
                             <div class="scale-btns">
                                 <button class="scale-btn active" data-scale="1">1×</button>
                                 <button class="scale-btn" data-scale="2">2×</button>
@@ -235,7 +246,7 @@
                                 <polyline points="7 10 12 15 17 10"></polyline>
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
-                            <span>下载像素图</span>
+                            <span data-i18n="downloadPixel">下载像素图</span>
                         </button>
                     </div>
                 </div>
@@ -247,9 +258,9 @@
             <!-- 原图预览 -->
             <div class="preview-section">
                 <h2 class="section-title">
-                    原图预览
+                    <span data-i18n="originalPreview">原图预览</span>
                     <div class="zoom-control">
-                        <span class="zoom-control__label">缩放</span>
+                        <span class="zoom-control__label" data-i18n="preview">缩放</span>
                         <input type="range" id="previewZoomSlider" class="zoom-slider" min="10" max="200" value="100">
                         <span class="zoom-control__value" id="previewZoomValue">100%</span>
                     </div>
@@ -272,13 +283,13 @@
             <!-- 像素化结果预览 -->
             <div class="pixel-section" id="pixelSection">
                 <h2 class="section-title">
-                    像素化结果
+                    <span data-i18n="pixelResult">像素化结果</span>
                     <div class="view-toggle">
-                        <button class="view-toggle__btn active" data-view="pixel" id="viewPixelBtn">像素图</button>
-                        <button class="view-toggle__btn" data-view="compare" id="viewCompareBtn">对比</button>
+                        <button class="view-toggle__btn active" data-view="pixel" id="viewPixelBtn" data-i18n="pixelView">像素图</button>
+                        <button class="view-toggle__btn" data-view="compare" id="viewCompareBtn" data-i18n="compareView">对比</button>
                     </div>
                     <div class="zoom-control">
-                        <span class="zoom-control__label">缩放</span>
+                        <span class="zoom-control__label" data-i18n="preview">缩放</span>
                         <input type="range" id="pixelZoomSlider" class="zoom-slider" min="100" max="800" value="200">
                         <span class="zoom-control__value" id="pixelZoomValue">200%</span>
                     </div>
@@ -290,7 +301,7 @@
                             <circle cx="8.5" cy="8.5" r="1.5"/>
                             <polyline points="21 15 16 10 5 21"/>
                         </svg>
-                        <p>转换后显示像素图</p>
+                        <p data-i18n="pixelPlaceholder">转换后显示像素图</p>
                     </div>
                     <div class="pixel-preview-wrapper" id="pixelPreviewWrapper" style="display: none;">
                         <canvas id="pixelCanvas"></canvas>
@@ -299,7 +310,7 @@
                 <!-- 对比视图 -->
                 <div class="compare-view" id="compareView" style="display: none;">
                     <div class="compare-item">
-                        <span class="compare-label">原图</span>
+                        <span class="compare-label" data-i18n="compareOriginal">原图</span>
                         <canvas id="compareOriginalCanvas"></canvas>
                     </div>
                     <div class="compare-arrow">
@@ -308,7 +319,7 @@
                         </svg>
                     </div>
                     <div class="compare-item">
-                        <span class="compare-label">像素图</span>
+                        <span class="compare-label" data-i18n="comparePixel">像素图</span>
                         <canvas id="comparePixelCanvas"></canvas>
                     </div>
                 </div>
@@ -319,13 +330,15 @@
     <!-- 加载状态 -->
     <div class="loading-overlay" id="loadingOverlay" style="display: none;">
         <div class="loading-spinner"></div>
-        <p class="loading-text" id="loadingText">处理中...</p>
+        <p class="loading-text" id="loadingText" data-i18n="loadingProcessing">处理中...</p>
     </div>
 
     <!-- Toast 提示 -->
     <div class="toast-container" id="toastContainer"></div>
 
     <!-- 脚本 -->
+    <script src="../js/config/translations.js"></script>
+    <script src="../js/modules/i18n.js"></script>
     <script src="../js/config/constants.js"></script>
     <script src="../js/utils/domUtils.js"></script>
     <script src="../js/utils/canvasUtils.js"></script>
@@ -342,26 +355,26 @@
     <div class="share-modal" id="shareModal">
         <div class="share-modal__content">
             <div class="share-modal__header">
-                <h3>分享 Magic Pixel</h3>
+                <h3 data-i18n="shareTitle">分享 Magic Pixel</h3>
                 <button class="share-modal__close" id="shareModalClose">&times;</button>
             </div>
             <div class="share-modal__body">
                 <div class="share-copy-link">
                     <input type="text" class="share-copy-link__input" id="shareUrlInput" readonly>
-                    <button class="share-copy-link__btn" id="copyLinkBtn">复制链接</button>
+                    <button class="share-copy-link__btn" id="copyLinkBtn" data-i18n="shareCopyLink">复制链接</button>
                 </div>
                 <div class="share-platforms">
                     <button class="share-platform share-platform--weibo" data-platform="weibo">
                         <span class="share-platform__icon">微</span>
-                        <span class="share-platform__name">微博</span>
+                        <span class="share-platform__name" data-i18n="shareWeibo">微博</span>
                     </button>
                     <button class="share-platform share-platform--twitter" data-platform="twitter">
                         <span class="share-platform__icon">X</span>
-                        <span class="share-platform__name">Twitter</span>
+                        <span class="share-platform__name" data-i18n="shareTwitter">Twitter</span>
                     </button>
                     <button class="share-platform share-platform--wechat" data-platform="wechat">
                         <span class="share-platform__icon">微</span>
-                        <span class="share-platform__name">微信</span>
+                        <span class="share-platform__name" data-i18n="shareWechat">微信</span>
                     </button>
                 </div>
             </div>

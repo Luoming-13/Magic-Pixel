@@ -797,6 +797,41 @@
     height: 12px;
 }
 
+/* 下载小脚标 - 右下角 */
+.align-grid__download {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background: var(--pixel-success);
+    color: white;
+    width: 22px;
+    height: 22px;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 0 rgba(45, 31, 61, 0.2);
+    transition: all var(--pixel-transition);
+    opacity: 0;
+    z-index: 10;
+}
+
+.align-grid__item:hover .align-grid__download {
+    opacity: 1;
+}
+
+.align-grid__download:hover {
+    background: #16a34a;
+    transform: scale(1.15);
+}
+
+.align-grid__download svg {
+    width: 11px;
+    height: 11px;
+}
+
 /* ===== Extend Inputs ===== */
 .extend-inputs {
     display: flex;

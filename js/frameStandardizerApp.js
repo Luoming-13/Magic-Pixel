@@ -84,8 +84,8 @@ const FrameStandardizerApp = {
             exportSection: DOM.$('#exportSection'),
             formatRadios: DOM.$$('input[name="format"]'),
             fileNamePrefix: DOM.$('#fileNamePrefix'),
-            previewSheetBtn: DOM.$('#previewSheetBtn'),
             exportSheetBtn: DOM.$('#exportSheetBtn'),
+            exportBlocksBtn: DOM.$('#exportBlocksBtn'),
 
             // 预览区域
             slicePreviewSection: DOM.$('#slicePreviewSection'),
@@ -182,8 +182,8 @@ const FrameStandardizerApp = {
         DOM.on(this._elements.extendVertical, 'input', () => this._onExtendChange());
 
         // 导出
-        DOM.on(this._elements.previewSheetBtn, 'click', () => this._previewSpriteSheet());
         DOM.on(this._elements.exportSheetBtn, 'click', () => this._exportSpriteSheet());
+        DOM.on(this._elements.exportBlocksBtn, 'click', () => this._exportBlocksAsZip());
 
         // 缩放控制
         DOM.on(this._elements.sliceZoomSlider, 'input', (e) => {
@@ -676,6 +676,24 @@ const FrameStandardizerApp = {
             actions.appendChild(moveBtn);
 
             item.appendChild(actions);
+
+            // 下载小脚标 - 右下角
+            const downloadBtn = DOM.createElement('button', 'align-grid__download', {
+                innerHTML: `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                `,
+                title: '下载此块'
+            });
+            DOM.on(downloadBtn, 'click', (e) => {
+                e.stopPropagation();
+                this._downloadSingleBlock(index);
+            });
+            item.appendChild(downloadBtn);
+
             container.appendChild(item);
 
             // 绑定拖拽事件到容器项
@@ -953,6 +971,114 @@ const FrameStandardizerApp = {
     },
 
     /**
+     * 分块导出 - 打包下载所有拆开的零散块
+     */
+    async _exportBlocksAsZip() {
+        if (this._blocks.length === 0) {
+            this.showToast('没有可导出的块', 'warning');
+            return;
+        }
+
+        const result = FrameAligner.getResult();
+        if (!result) {
+            this.showToast('请先完成对齐', 'warning');
+            return;
+        }
+
+        const format = this._getSelectedFormat();
+        const prefix = this._elements.fileNamePrefix.value || 'sprite_block';
+        const maxSize = result.maxSize;
+
+        this.showLoading('正在打包导出...');
+        this.showProgress('0%');
+
+        try {
+            const zip = new JSZip();
+            const mimeType = format === 'jpg' ? 'image/jpeg' : 'image/png';
+            const total = this._blocks.length;
+
+            for (let i = 0; i < total; i++) {
+                const block = this._blocks[i];
+
+                // 使用 FrameAligner 渲染对齐后的预览
+                const canvas = FrameAligner.renderPreview(block, maxSize);
+                if (!canvas) continue;
+
+                const blob = await new Promise(resolve => {
+                    canvas.toBlob(resolve, mimeType, format === 'jpg' ? 0.92 : undefined);
+                });
+
+                const filename = `${prefix}_${String(i + 1).padStart(3, '0')}.${format}`;
+                zip.file(filename, blob);
+
+                // 更新进度
+                this.updateProgress(Math.round(((i + 1) / total) * 100));
+            }
+
+            // 生成 ZIP 文件
+            const zipBlob = await zip.generateAsync({
+                type: 'blob',
+                compression: 'DEFLATE',
+                compressionOptions: { level: 6 }
+            });
+
+            FileUtils.downloadBlob(zipBlob, `${prefix}_blocks.zip`);
+
+            this.hideLoading();
+            this.hideProgress();
+            this.showToast(`分块导出成功，共 ${total} 个块`, 'success');
+
+        } catch (error) {
+            this.hideLoading();
+            this.hideProgress();
+            this.showToast('导出失败: ' + error.message, 'error');
+        }
+    },
+
+    /**
+     * 下载单个块
+     */
+    async _downloadSingleBlock(blockIndex) {
+        if (blockIndex < 0 || blockIndex >= this._blocks.length) {
+            this.showToast('无效的块索引', 'error');
+            return;
+        }
+
+        const result = FrameAligner.getResult();
+        if (!result) {
+            this.showToast('请先完成对齐', 'warning');
+            return;
+        }
+
+        const block = this._blocks[blockIndex];
+        const format = this._getSelectedFormat();
+        const prefix = this._elements.fileNamePrefix.value || 'sprite_block';
+        const maxSize = result.maxSize;
+
+        try {
+            // 使用 FrameAligner 渲染对齐后的预览
+            const canvas = FrameAligner.renderPreview(block, maxSize);
+            if (!canvas) {
+                this.showToast('无法生成块图像', 'error');
+                return;
+            }
+
+            const mimeType = format === 'jpg' ? 'image/jpeg' : 'image/png';
+            const blob = await new Promise(resolve => {
+                canvas.toBlob(resolve, mimeType, format === 'jpg' ? 0.92 : undefined);
+            });
+
+            const filename = `${prefix}_${String(blockIndex + 1).padStart(3, '0')}.${format}`;
+            FileUtils.downloadBlob(blob, filename);
+
+            this.showToast('下载成功', 'success');
+
+        } catch (error) {
+            this.showToast('下载失败: ' + error.message, 'error');
+        }
+    },
+
+    /**
      * 获取选中的导出格式
      */
     _getSelectedFormat() {
@@ -973,8 +1099,8 @@ const FrameStandardizerApp = {
         this._elements.undoBlockBtn.disabled = !hasBlocks;
         this._elements.clearAllBlocksBtn.disabled = !hasBlocks;
         this._elements.clearAlignBlocksBtn.disabled = !hasBlocks;
-        this._elements.previewSheetBtn.disabled = !hasAligned;
         this._elements.exportSheetBtn.disabled = !hasGenerated;
+        this._elements.exportBlocksBtn.disabled = !hasAligned;
     },
 
     /**

@@ -227,10 +227,7 @@
                             <input type="text" id="fileNamePrefix" class="control-group__input" value="sprite_sheet" data-i18n-placeholder="prefixPlaceholder">
                         </label>
                     </div>
-                    <div class="btn-group">
-                        <button class="btn btn--secondary" id="previewSheetBtn" disabled>
-                            <span data-i18n="previewSheet">预览精灵表</span>
-                        </button>
+                    <div class="btn-group btn-group--horizontal">
                         <button class="btn btn--primary" id="exportSheetBtn" disabled>
                             <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -238,6 +235,15 @@
                                 <line x1="12" y1="15" x2="12" y2="3"></line>
                             </svg>
                             <span data-i18n="exportSheet">导出精灵表</span>
+                        </button>
+                        <button class="btn btn--secondary" id="exportBlocksBtn" disabled>
+                            <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"/>
+                                <rect x="14" y="3" width="7" height="7"/>
+                                <rect x="3" y="14" width="7" height="7"/>
+                                <rect x="14" y="14" width="7" height="7"/>
+                            </svg>
+                            <span data-i18n="exportBlocks">分块导出</span>
                         </button>
                     </div>
                 </div>
